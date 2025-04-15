@@ -1,0 +1,13 @@
+.container {
+    height: 40px;
+    
+    position: relative;
+    margin: 10px; /* Added space between elements */
+    margin: 0 auto;
+}
+
+.characterSpan {
+  display: inline-block;
+  transition: width 0.5s ease;
+  width: min-content
+}

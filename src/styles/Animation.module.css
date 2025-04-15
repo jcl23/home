@@ -1,0 +1,9 @@
+.varyColor {
+    transition-property: color;
+}
+.varyBackground {
+    transition-property: background-color;
+}
+.varyShape {
+    transition-property: width, height, border-radius;
+}

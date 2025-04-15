@@ -1,0 +1,43 @@
+:root {
+    --a4: #8d0000;
+    --b4: rgb(233, 233, 219);
+}
+.svg {
+    display: none;
+}
+.outer {
+    background: var(--b4);
+    transition: background-color 0.4s;
+
+}
+.header {
+    transition-duration: 1s;
+}
+.header > div {
+    transition-duration: 0.4s;
+    margin: 10px;
+    border-width: 0px;
+    border-color: transparent;
+}
+
+
+.button {
+    background: transparent;
+    border-width: 0;
+    font-family: 'CommitMono';
+    color: var(--a4);
+
+    transition-property: background-color, border-radius, border-color, border-width;
+}
+.name {
+    font-family: 'CommitMono';
+    font-size: 1.45em;
+    margin-bottom: 2px;
+    transform: scaleY(1);
+    color: var(--a4);
+    position: relative;
+    top: 0px;
+}
+.nameOuter {
+    /* width: 0; */
+}

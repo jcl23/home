@@ -1,0 +1,77 @@
+:root {
+    --s2_button_bg: rgb(139, 146, 146);
+    --s2_button_fg: rgb(46, 92, 102);
+    --s2_fg: rgb(213, 32, 26);
+    --s2_bg: rgb(144, 31, 27);
+    --hilbert-gap-prop: 1;
+    --hilbert-height: 60px;
+    --hilbert-interval: calc(var(--hilbert-height) / (8 - 1));
+    --hilbert-gap: calc(var(--hilbert-interval) * var(--hilbert-gap-prop));
+}
+
+.outer {
+    background:  rgb(107, 199, 217);
+    transition: background-color 0.4s;
+    
+}
+
+.header > div {
+    transition-duration: 0.5s;
+    transition-timing-function: linear;
+    margin: 10px;
+    border-color: #93abd1 #4f5e78 #71839f #b8cae6;
+    border-width: 3px 2px;
+    border-radius: 12px;
+}
+
+
+.button {
+    background: rgb(202, 227, 255);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+
+}
+
+.svg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.svg > polyline {
+    fill: none;
+
+    stroke-linecap: square;
+    /* transition: stroke-dashoffset 0.5s, transform 0.5s; */
+}
+.polyline1 {
+    stroke: var(--s2_fg);
+    stroke-width: 2px;
+}
+.polyline2 {
+    stroke: var(--s2_bg);
+    stroke-width: 2px;
+
+}
+.svg:hover > polyline,
+.svg:hover > path  {
+    stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2);
+    /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
+
+}
+
+
+.name {
+    font-family: 'SegoeUI', 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 1.53em;
+    transform: scaleY(1);
+    color: red;
+    filter: blur(0.2px);
+    text-shadow: 0px 1px 0px rgba(147, 0, 0, 0.8);
+    /* box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6); */
+    position: relative;
+    top: 0px;
+}
+.nameOuter {
+    /* width: 0; */
+    position: relative;
+}

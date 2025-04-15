@@ -1,0 +1,15 @@
+.outer {
+    width: 100%;
+    position: relative;
+    transition: 0.5s;
+    transition-property: width;
+}
+
+.inner {
+    
+}
+
+
+.card_body {
+    max-width: 720px;
+}

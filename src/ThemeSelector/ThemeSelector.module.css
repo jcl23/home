@@ -1,0 +1,24 @@
+.button {
+    width: 40px;
+    height: 40px;
+
+}
+
+.button.active {
+
+    transform: scale(1.1);
+}
+
+.button.inactive {
+    transform: scale(1);
+}
+
+.theme4buttonSubstitute {
+    border: 2px dashed black;
+    background: rgb(233, 233, 219);
+}
+.theme4buttonSubstitute.focus {
+    background: white!important;
+    border: 2px solid black;
+    cursor: pointer;
+}

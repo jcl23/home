@@ -1,0 +1,162 @@
+:root {
+    --r3_button_bg: rgb(139, 146, 146);
+    --r3_bg: rgb(222, 222, 222);
+    --r3_fg: rgb(148, 148, 148);
+}
+
+.outer {
+    background:  rgb(222, 222, 222);
+    width: 100%;
+    height: 100%;
+    transition: background-color 0.5s;
+    animation: shaky 0.5s infinite;
+}
+
+.svg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transition: 0.5s;
+}
+.svg > polyline {
+    fill: none;
+    stroke-linecap: square;
+    transition: stroke-dashoffset 0.5s, transform 0.5s;;
+}
+
+.polyline2 {
+    stroke-width: 0px;
+}
+.polyline1 {
+    stroke: var(--r3_button_bg);
+    stroke-width: 4px;
+
+}
+.svg:hover > path  {
+    /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
+    stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2);
+}
+
+.polyline1 {
+    /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
+    /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
+
+    
+
+}
+
+.header {
+    transition-duration: 1s;
+}
+
+
+.header > div {
+    transition-duration: 0.4s;
+    transition-timing-function: steps(4);
+    margin: 5px;
+    /* margin: 10px;
+    border-color: #93abd1 #4f5e78 #71839f #b8cae6;
+    border-width: 3px 2px;
+    border-radius: 12px; */
+
+}
+
+.button{
+      border-width: 2px;
+      border-style: outset;
+      font-family: "W95FA";
+      border-right-color: #424242;
+      border-bottom-color: #424242;
+      background-color: silver;
+      color: black;
+      padding: 0 0 4px;
+      border-radius: 1px;
+  }
+  .button:hover {
+      border: 2px inset #fff;
+      background: silver;
+      color: #424242;
+      box-shadow: -1px -1px #000;
+  }
+  .button:focus {
+      border: 2px inset #fff !important;
+      background: silver;
+      color: #424242;
+      box-shadow: -1px -1px #000 !important;
+      outline: 0 !important;
+      background: url(background.bmp);
+  }
+  .button:active {
+      border: 2px inset #fff !important;
+      color: #424242;
+      box-shadow: -1px -1px #000 !important;
+      outline: 0 !important;
+      background: url(background.bmp);
+  }
+.button {
+
+
+}
+.name {
+    filter: blur(0.4px);
+    letter-spacing: 0.05em;
+    font-family: 'W95FA';
+    font-size: 1.65em;
+    font-weight: bold;
+    font-stretch: expanded;
+    color: var(--r3_fg)
+
+}
+.nameOuter {
+    /* width: 0; */
+    position: relative;
+}
+
+.card {
+    font-family: 'W95FA';
+    filter: blur(0.2px);
+    image-rendering:optimizeSpeed;
+    border: solid;
+    border-width: 2px;
+    border-bottom-color: #424242;
+    border-right-color: #424242;
+    border-left-color: #fff;
+    border-top-color: #fff;
+    background: silver;
+    color:#212529;
+}
+
+.card_banner {
+    margin: 2px;
+    height: 35px;
+    font-size: 1.4em;
+    filter: blur(0.2px);
+    background: -webkit-linear-gradient(left,#08216b,#a5cef7);
+    color: #fff;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    text-align: left;
+}
+
+.card_body {
+    font-size: 18px;
+}
+
+
+/* .card_header {
+    filter: blur(0.2px);
+    background: -webkit-linear-gradient(left,#08216b,#a5cef7);
+    color: #fff;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    text-align: left;
+} */
+

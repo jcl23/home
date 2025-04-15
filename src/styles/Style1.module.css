@@ -1,0 +1,184 @@
+:root {
+    --s1_button_bg: rgba(139, 146, 146, 0.29);
+    --s1_button_fg: rgb(46, 92, 102);
+    --s1_button_fg_alt: rgb(66, 112, 108);
+    --hilbert-gap-prop: 1;
+    --hilbert-height: 60px;
+    --hilbert-interval: calc(var(--hilbert-height) / (8 - 1));
+    --hilbert-gap: calc(var(--hilbert-interval) * var(--hilbert-gap-prop));
+}
+@keyframes strokeWidthAnimation {
+    0% {
+        stroke-dasharray: 0, 6.6666;
+
+    }
+    40% {
+        stroke-dasharray: 0, 6.6666;
+
+    }
+    100% {
+        stroke-dasharray: 0, 6.6666;
+
+    }
+}
+.outer {
+    background-color: rgb(201, 237, 209);
+    transition: background-color 0.5s;
+
+}
+.header {
+    background: transparent;
+    transition-duration: 0.1s;
+    font-family: Arial;
+}
+.header > div {
+    transition-duration: 0.5s;
+    /* margin: 0px; */
+    border-radius: 5px;
+    border-color: rgb(212, 212, 212);
+    /* margin: 4px; */
+    border-width: 0px;
+}
+
+
+
+.polyline2 {
+    stroke: var(--s1_button_fg_alt);
+}
+.polyline1 {
+    stroke: var(--s1_button_fg);
+
+}
+.svg {
+    position: absolute;
+    filter: drop-shadow(0px 1px 0.5px rgba(0, 0, 0, 0.2));
+
+    left: 0px;
+}
+svg > path {
+    fill: none;
+    stroke-linecap: square;
+    transition: 0.5s;
+}
+
+    /* animation: strokeWidthAnimation 1s linear infinite; */
+
+.svg:hover > polyline,
+.svg:hover > path {
+    transform: translateX(120px);
+    
+    stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2);
+    /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
+}
+
+.name:hover {
+    color: red;
+}
+
+.button {
+    /* box-shadow: 0px 2px 0px 0px #000000c6; */
+    /* border-radius: 5px; */
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
+    /* border-color: rgb(212, 212, 212); */
+    /* background: linear-gradient(to bottom, lightgrey, grey); */
+    color: white;
+    border-radius: 0px;
+    background-position: 1px 0;
+    transition: border-width 0.1s;
+    position: relative;
+}
+.button::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background-color: red;
+    background: linear-gradient(45deg, var(--s1_button_fg) 10.5%, var(--s1_button_bg) 11%, var(--s1_button_bg) 89.5%, var(--s1_button_bg) 90%, var(--s1_button_fg) 90.5%);
+}
+
+.name {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 1.5em;
+    font-weight: bold;
+    
+    letter-spacing: 0.0em;
+    color: var(--s1_button_fg);
+    transition: color 0.1s steps(3, end);
+}
+.nameOuter {
+    width: 100%;
+
+}
+
+.card_header {
+    background-color: white;
+    max-height: 0px;
+}
+.card_body {
+    background-color: white;
+    image-rendering: pixelated;
+    text-rendering: geometricPrecision;
+    font-family: 'AktivGroteskVF', Arial, sans-serif;
+    font-weight: 100;
+    padding: 0px 50px;
+    text-align:justify;
+    overflow: hidden;
+    max-height: 0px;  
+}   
+.selected .card_body {
+    height: fit-content;
+}
+.selected .card_header {
+    max-height: 50px;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+.main2 {
+ 
+}
+.card_banner {
+    transform: scaleY(1);
+    transition-property: transform;
+    transition-duration: 0.5s; 
+
+    font-size: 20px;
+    text-align: left;
+    background: linear-gradient(45deg, var(--s1_button_fg) 5.5%, var(--s1_button_bg) 6%, var(--s1_button_bg) 6.5%, var(--s1_button_bg) 93.5%, var(--s1_button_bg) 94%, var(--s1_button_fg) 94.5%, var(--s1_button_fg) 100%);
+    font-family: 'AktivGroteskVF', Arial, sans-serif;
+    color: var(--s1_button_fg);
+    text-transform: uppercase;
+    margin-bottom: 0px;
+    margin-top: 0px;
+
+}
+.card.selected > .card_banner {
+    transform: scaleY(0);
+    height: 0px;
+}
+
+.card.selected:nth-child(1)  .card_body {
+    max-height: 300px;
+}
+.card.selected:nth-child(2)  .card_body {
+    max-height: 200px;
+}
+.card.selected:nth-child(3)  .card_body {
+    max-height: 300px;
+}
+
+.name_peano {
+    /* border: 2px solid green;
+    margin-left: 100px;
+    margin-right: 100px; */
+}
+.card_list > div:nth-child(1) {
+
+}
+
+.style1 {
+    /* Add any specific styles for style1 here */
+}

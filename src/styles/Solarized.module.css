@@ -1,0 +1,45 @@
+:root {
+    --a5: #002b36;
+
+}
+
+.outer {
+    background-color: var(--a5);
+}
+
+.main {
+
+}
+
+.header {
+
+}
+.header > div {
+
+}
+.button {
+   
+}
+
+.name {
+
+}
+
+.nameOuter {
+
+}
+.nameOuter > div {
+
+}
+
+.card {
+
+}
+
+.card_header {
+
+}
+
+.card_body {
+
+}
