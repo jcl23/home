@@ -1,6 +1,6 @@
 .container {
     height: 40px;
-    
+    line-height: 50px;
     position: relative;
     margin: 10px; /* Added space between elements */
     margin: 0 auto;

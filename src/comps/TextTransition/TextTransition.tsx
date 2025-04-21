@@ -37,27 +37,29 @@ export const TextTransition = function( {text, themeIndex,  duration }: TextTran
         [9, 4.7, 12],
     ]
     return (
-        <div className={textStyles.container}>
+        <div 
+            className={textStyles.container} 
+            style={{ clipPath: 'polygon(0% 40%, 20% 40%, 40% 0%, 6 0% 40%, 80% 40%, 100% 40%, 100% 100%, 0% 100%)' }}
+        >
             {chars.map((word, i) => (
-                <span 
-                key={"TextTransitionBlock" + i}
-                style={{
-                    whiteSpace: "nowrap",
-                    width: `${widthsByThemeIndex[themeIndex][i]}ch`,
-                    display: "inline-block",
-                    textAlign: "center",
-                    transitionProperty: "width",
-                    transitionDuration: `${duration * 0.25}ms`,
-                    transitionDelay: `${duration * 0.75}ms`,
-                    transitionTimingFunction: "linear",
-                }}
+            <span 
+            key={"TextTransitionBlock" + i}
+            style={{
+            whiteSpace: "nowrap",
+            width: `${widthsByThemeIndex[themeIndex][i]}ch`,
+            display: "inline-block",
+            textAlign: "center",
+            transitionProperty: "width",
+            transitionDuration: `${duration * 0.25}ms`,
+            transitionDelay: `${duration * 0.75}ms`,
+            transitionTimingFunction: "linear",
+            }}
             >   
-                {word.map((char, j) => {
-                    return <span key={"TextTransitionChar" + i + " " + j} className={textStyles.characterSpan} ref={refs[charNo++]}>{char}</span>;
-                })}
-
+            {word.map((char, j) => {
+            return <span key={"TextTransitionChar" + i + " " + j} className={textStyles.characterSpan} ref={refs[charNo++]}>{char}</span>;
+            })}
             </span>
-        ))}
+            ))}
         </div>
     );
 }

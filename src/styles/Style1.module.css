@@ -51,7 +51,7 @@
 }
 .svg {
     position: absolute;
-    filter: drop-shadow(0px 1px 0.5px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.2));
 
     left: 0px;
 }
@@ -89,6 +89,9 @@ svg > path {
     transition: border-width 0.1s;
     position: relative;
 }
+.container {
+    border: 5px solid black;
+}
 .button::after {
     content: '';
     position: absolute;
@@ -98,15 +101,16 @@ svg > path {
     bottom: -2px;
     background-color: red;
     background: linear-gradient(45deg, var(--s1_button_fg) 10.5%, var(--s1_button_bg) 11%, var(--s1_button_bg) 89.5%, var(--s1_button_bg) 90%, var(--s1_button_fg) 90.5%);
+    
 }
 
 .name {
     font-family: 'Inter', Arial, sans-serif;
     font-size: 1.5em;
     font-weight: bold;
-    
     letter-spacing: 0.0em;
     color: var(--s1_button_fg);
+    filter: drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.2));
     transition: color 0.1s steps(3, end);
 }
 .nameOuter {
@@ -152,7 +156,7 @@ svg > path {
     color: var(--s1_button_fg);
     text-transform: uppercase;
     margin-bottom: 0px;
-    margin-top: 0px;
+    margin-top: 0px
 
 }
 .card.selected > .card_banner {

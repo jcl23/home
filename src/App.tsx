@@ -36,10 +36,9 @@ function App() {
   // const svgPoints = pointsToSvgPolyline(points);
 
   const width = [
-    240, 240, 240, 240//250, 300, 400
+    250, 240, 240, 240//250, 300, 400
   ][themeIndex];
 
-  const doHoverScale = themeIndex === 2;
 
   if (themeIndex === undefined) {
     console.error("Theme index is undefined");

@@ -70,17 +70,11 @@ export const doSnakeIn = (refs: React.RefObject<HTMLDivElement | null>[], from: 
                 resolve();
                 return;
             }
-
             const ref = refs[currentIndex];
             if (ref.current) {
-                ref.current.classList.add(from);
-                setTimeout(() => {
-                    ref.current?.classList?.remove(from);
-                    ref.current?.classList?.add(to);
-                    underscoreBlink(ref, interval);
-                }, interval);
+                ref.current.classList?.add(to);
+                underscoreBlink(ref, interval);
             }
-
             currentIndex++;
         }, interval);
     });
