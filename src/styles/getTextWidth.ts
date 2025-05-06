@@ -1,4 +1,4 @@
-export const getTextDims = (text: string, className: string,) => {
+export const getTextDims = (text: string, className: string) => {
     const span = document.createElement("span");
     span.className = className;
     span.innerText = text;

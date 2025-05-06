@@ -36,7 +36,7 @@ function App() {
   // const svgPoints = pointsToSvgPolyline(points);
 
   const width = [
-    250, 240, 240, 240//250, 300, 400
+    248.5, 248.5, 248.5, 240//250, 300, 400
   ][themeIndex];
 
 
@@ -83,32 +83,9 @@ function App() {
           </div>
         </div>
         <div className={[style.name, mainStyle.name].join(' ')}>
+          
           <Border iter={3} blockHeight={60} width={width} themeIndex={themeIndex}  passThrough={false}>
-            {/* <div style={{width: "100%", height: "100%", display: "flex", flexDirection: "row"}}> */}
-              <TextTransition text="Justin&nbsp;Lee" themeIndex={themeIndex} duration={duration}  />
-              {/* <div style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}>
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(4, 1fr)",
-                  gridTemplateRows: "repeat(4, 1fr)",
-                  width: "180px",
-                  height: "100px",
-                  gap: "2px",
-                }}>
-                  {Array.from({ length: 16 }).map((_, index) => (
-                    <div key={index} style={{
-                      border: "1px solid black",
-                      width: "100%",
-                      height: "100%",
-                    }} />
-                  ))}
-                </div>
-                </div> */}
+              <TextTransition text="Justin&nbsp;Lee" themeIndex={themeIndex} duration={duration}  /> 
           </Border>
          
         </div>

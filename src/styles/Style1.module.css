@@ -58,7 +58,6 @@
 svg > path {
     fill: none;
     stroke-linecap: square;
-    transition: 0.5s;
 }
 
     /* animation: strokeWidthAnimation 1s linear infinite; */

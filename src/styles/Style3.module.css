@@ -26,15 +26,18 @@
 
 .polyline2 {
     stroke-width: 0px;
+    stroke: "red";
 }
 .polyline1 {
     stroke: var(--r3_button_bg);
     stroke-width: 4px;
 
 }
+.svg > path {
+    transition: 0.5s;
+}
 .svg:hover > path  {
-    /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
-    stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2);
+
 }
 
 .polyline1 {
@@ -44,6 +47,7 @@
     
 
 }
+
 
 .header {
     transition-duration: 1s;

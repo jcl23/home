@@ -6,7 +6,14 @@
     margin: 0 auto;
 }
 
-.characterSpan {
+.word {
+  white-space: nowrap;
+  display: inline-block;
+  text-align: center;
+  transition-property: width;
+  transition-timing-function: linear;
+}
+.word > span {
   display: inline-block;
   transition: width 0.5s ease;
   width: min-content

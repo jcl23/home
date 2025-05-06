@@ -1,13 +1,14 @@
 import React from "react";
 import { getTextDims } from "./getTextWidth";
 
+
+// Spreading algorithm shit
 function permuteIndex(i: number, n: number): number {
     const a = 1009; // Large prime, should be coprime with n
     const b = 2027; // Large prime for shifting
     // log for everything
     return (a * i + b) % n;
 }
-
 
 const smallPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
 const nextPrime = (num: number): number => {
@@ -26,41 +27,45 @@ const nextPrime = (num: number): number => {
     return smallPrimes[left];
 };
 
+
+type TextAnim = (cancelRefrefs: React.RefObject<HTMLDivElement | null>[], from: string, to: string, duration: number) => Promise<void>[];
 const permuteTimeScale = (i: number, n: number, duration: number): number => {
     if (n === 0) return 0;
     return permuteIndex(i, n) * duration / n;
 }
 
-export const doPhaseIn = (refs: React.RefObject<HTMLDivElement | null>[],  from: string, to: string, duration: number) => {
+export const doPhaseIn: TextAnim = (refs: React.RefObject<HTMLDivElement | null>[],  from: string, to: string, duration: number) => {
     const prime = nextPrime(refs.length);
     
     return refs.map((ref, i) => {
         return new Promise<void>((resolve) => {
-            if (ref.current?.classList) {
-                ref.current.classList.add(from);
-                setTimeout(() => {
-                    if (!ref.current) return;
-                    ref.current?.classList?.remove(from);
-                    ref.current?.classList?.add(to);
-                    resolve();
-                }, permuteTimeScale(i, prime, duration));
-            } else {
+            if (!ref.current) {
+                console.warn("Ref is null, resolving immediately.");
                 resolve();
-            }
+                return;
+            };
+            ref.current.className = from;
+            setTimeout(() => {
+                if (!ref.current) return;
+                ref.current.className = to;
+
+                resolve();
+            }, permuteTimeScale(i, prime, duration));
         });
     });
 }
 const underscoreBlink = (ref: React.RefObject<HTMLDivElement | null>, duration = 200) => {
     if (ref.current) {
-        let content = ref.current.innerText;
+        ref.current.actualText = ref.current.innerText;
         ref.current.innerText = "_";
         setTimeout(() => {
-            ref.current!.innerText = content;
+            ref.current!.innerText = ref.current!.actualText;
+            ref.current!.actualText = undefined;
         }, duration);
     }
 }
-export const doSnakeIn = (refs: React.RefObject<HTMLDivElement | null>[], from: string, to: string, duration: number) => {
-    return new Promise<void>((resolve) => {
+export const doSnakeIn: TextAnim = (refs: React.RefObject<HTMLDivElement | null>[], from: string, to: string, duration: number) => {
+    return [new Promise<void>((resolve) => {
         let currentIndex = 0;
         const interval = duration / refs.length;
 
@@ -72,21 +77,21 @@ export const doSnakeIn = (refs: React.RefObject<HTMLDivElement | null>[], from: 
             }
             const ref = refs[currentIndex];
             if (ref.current) {
-                ref.current.classList?.add(to);
+                ref.current.className = to;
                 underscoreBlink(ref, interval);
             }
             currentIndex++;
         }, interval);
-    });
+    })];
 }
-const doBlinkInGroup = (refs: React.RefObject<HTMLDivElement | null>[], from: string, to: string, duration: number, toggleCount = 10) => {
+const doBlinkInGroup: TextAnim = (refs: React.RefObject<HTMLDivElement | null>[], from: string, to: string, duration: number, toggleCount = 10) => {
     const warpPattern = Math.sqrt;
     const blinkTimes = Array.from({ length: toggleCount }, (_, i) => i).map(i => warpPattern(i / toggleCount) * duration);
     // round all 
     blinkTimes.forEach((v, i) => {
         blinkTimes[i] = Math.round(v);
     });
-    return new Promise<void>((resolve) => {
+    return [new Promise<void>((resolve) => {
         // Random variation to make animation more natural
         const waitPropMax = 0.4;
         const waitProp = Math.random() * waitPropMax;
@@ -115,7 +120,7 @@ const doBlinkInGroup = (refs: React.RefObject<HTMLDivElement | null>[], from: st
         
         // Set initial state
         refs.forEach(ref => {
-            if (ref.current) ref.current.classList.add(from);
+            if (ref.current) ref.current.className = from;
         });
         
         // Create array of toggle promises
@@ -132,8 +137,7 @@ const doBlinkInGroup = (refs: React.RefObject<HTMLDivElement | null>[], from: st
                             
                             // Toggle between classes
                             const isEven = i % 2 === 0;
-                            ref.current.classList.remove(isEven ? from : to);
-                            ref.current.classList.add(isEven ? to : from);
+                            ref.current.className = isEven ? to : from;
                         });
                         toggleResolve();
                     }, delay);
@@ -145,17 +149,16 @@ const doBlinkInGroup = (refs: React.RefObject<HTMLDivElement | null>[], from: st
         Promise.all(togglePromises).then(() => {
             refs.forEach(ref => {
                 if (ref.current) {
-                    ref.current.classList.remove(from);
-                    ref.current.classList.add(to);
+                    ref.current.className = to;
                 }
             });
             resolve();
         });
-    });
+    })];
 };
 
 
-export const doBlockPhaseIn = (refs: React.RefObject<HTMLDivElement | null>[], from: string, to: string, duration: number) => {
+export const doBlockPhaseIn: TextAnim = (refs: React.RefObject<HTMLDivElement | null>[], from: string, to: string, duration: number, width = 200) => {
     const text = refs.reduce((acc, ref) => {
         if (ref.current) {
             return acc + ref.current.innerText;
@@ -168,10 +171,12 @@ export const doBlockPhaseIn = (refs: React.RefObject<HTMLDivElement | null>[], f
             return t1 + (t2 - t1) * t;
         }
     }
-    const [fromW, fromH] = getTextDims(text,  from);
-    const [toW, toH] = getTextDims(text,  to);
+
+    let [toW, toH] = getTextDims("Justin Lee",  to);
+    toW = width;
     const ref1 = refs[0];
     const newDiv = document.createElement("div");
+    const shell = document.createElement("div");
     // animation: cubic-bezier(0.0, 0.0, 1.0, 1.0); 4s ease-in-out infinite;
     const N_STEPS = refs.length;
     const slideInTime = 1 / 4;
@@ -255,7 +260,15 @@ export const doBlockPhaseIn = (refs: React.RefObject<HTMLDivElement | null>[], f
         newDiv.style.height = `${toH}px`;
         newDiv.style.top = "0px"
         newDiv.style.background = 'black';
-        ref1.current.parentNode!.appendChild(newDiv);
+        // ref1.current.parentNode!.style.transform = "scaleX(2)"
+        ref1.current.parentNode!.parentNode!.appendChild(shell);
+        shell.style.transform = "scaleX(1)";
+        shell.style.width = "100%";
+        shell.style.height = "100%";
+        shell.style.position = "absolute";
+        shell.style.top = "5px";
+        shell.style.left = "0";
+        shell.appendChild(newDiv);
         setTimeout(() => {
             // if (ref1.current) {
             // ref1.current.removeChild(newDiv);
@@ -263,14 +276,13 @@ export const doBlockPhaseIn = (refs: React.RefObject<HTMLDivElement | null>[], f
             newDiv.remove();
         }, duration);
     }
-    const shift = 0.1;
+    const shift = 0.2;
     return refs.map((ref, i) => {
         return new Promise<void>((resolve) => {
             if (ref.current) {
-                ref.current.classList.add(from);
+                ref.current.className = from;
                 setTimeout(() => {
-                    ref.current?.classList?.remove(from);
-                    ref.current?.classList.add(to);
+                    if (ref.current) ref.current.className = to;
                     resolve();
                     // Should switch to the other theme once it is 
                     // covered by the block. THis means, 
@@ -312,7 +324,7 @@ export const doBlinkIn = (refs: React.RefObject<HTMLDivElement | null>[], from: 
         groups.push(group);
     }
     return groups.filter(g => g.length).flatMap((group, i) => {
-        return doBlinkInGroup(group, from, to, duration).then(() => {
+        return Promise.all(doBlinkInGroup(group, from, to, duration)).then(() => {
             // console.log("Group done", i);
         });
     });

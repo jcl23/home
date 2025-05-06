@@ -12,6 +12,7 @@ type TextTransitionProps = {
 export const TextTransition = function( {text, themeIndex,  duration }: TextTransitionProps)  {
     const to = styles[themeIndex].name;
     const prevStyle = useRef(to);
+    const resetTransition = useRef<Function>(() => {});
     console.log(prevStyle.current, to);
 
     console.log(to);
@@ -21,44 +22,58 @@ export const TextTransition = function( {text, themeIndex,  duration }: TextTran
     const refs = Array(text.length).fill(0).map(createRef<HTMLDivElement>);
     
     useEffect(() => {
+        resetTransition.current();
         const promiseData = NAME_ANIMS[themeIndex](refs, prevStyle.current, to, duration);
         const promises = Array.isArray(promiseData) ? promiseData : [promiseData];
-        Promise.all(promises).then(() => {
-            // Behavior to execute once all promises are settled
+        const reset = () => {
             prevStyle.current = to;
+            refs.forEach(ref => {
+                if (ref.current && ref.current.actualText) {
+                    ref.current.innerText = ref.current.actualText;
+                }
+            });
+            resetTransition.current = () => {};
+
+        }
+        resetTransition.current = reset;
+        // Reset the transition after the animation is done
+        Promise.all(promises).then(() => {
+            reset();
+            resetTransition.current = () => {};
         });
 
     }, [to]);
-    let charNo = 0;
     const widthsByThemeIndex = [
         [8.5, 5, 14.5],
         [9, 5, 14.8],
         [9, 5.3, 14.2],
         [9, 4.7, 12],
     ]
+    let charNo = 0;
     return (
         <div 
             className={textStyles.container} 
             style={{ clipPath: 'polygon(0% 40%, 20% 40%, 40% 0%, 6 0% 40%, 80% 40%, 100% 40%, 100% 100%, 0% 100%)' }}
         >
             {chars.map((word, i) => (
-            <span 
-            key={"TextTransitionBlock" + i}
-            style={{
-            whiteSpace: "nowrap",
-            width: `${widthsByThemeIndex[themeIndex][i]}ch`,
-            display: "inline-block",
-            textAlign: "center",
-            transitionProperty: "width",
-            transitionDuration: `${duration * 0.25}ms`,
-            transitionDelay: `${duration * 0.75}ms`,
-            transitionTimingFunction: "linear",
-            }}
-            >   
-            {word.map((char, j) => {
-            return <span key={"TextTransitionChar" + i + " " + j} className={textStyles.characterSpan} ref={refs[charNo++]}>{char}</span>;
-            })}
-            </span>
+                <span
+                className={`${textStyles.word}`}
+                key={"TextTransitionBlock" + i}
+                style={{
+                whiteSpace: "nowrap",
+                width: `${widthsByThemeIndex[themeIndex][i]}ch`,
+                display: "inline-block",
+                textAlign: "center",
+                transitionProperty: "width",
+                transitionDuration: `${duration * 0.25}ms`,
+                transitionDelay: `${duration * 0.75}ms`,
+                transitionTimingFunction: "linear",
+                }}
+                >   
+                {word.map((char, j) => {
+                    return <span key={"TextTransitionChar" + i + " " + j} ref={refs[charNo++]}>{char}</span>;
+                })}
+                </span>
             ))}
         </div>
     );
