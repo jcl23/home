@@ -37,7 +37,8 @@
     transition: 0.5s;
 }
 .svg:hover > path  {
-
+    /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
+    stroke-dasharray: calc(0px - var(--hilbert-gap) / 2);
 }
 
 .polyline1 {

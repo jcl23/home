@@ -48,6 +48,7 @@ export const TextTransition = function( {text, themeIndex,  duration }: TextTran
         [9, 5, 14.8],
         [9, 5.3, 14.2],
         [9, 4.7, 12],
+        [9, 4.7, 12],
     ]
     let charNo = 0;
     return (

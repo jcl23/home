@@ -36,7 +36,8 @@ function App() {
   // const svgPoints = pointsToSvgPolyline(points);
 
   const width = [
-    248.5, 248.5, 248.5, 240//250, 300, 400
+    248.5, 248.5, 248.5, 248.5, 248.5//250, 300, 400
+    // 248.5, 248.5, 248.5, 240//250, 300, 400
   ][themeIndex];
 
 
