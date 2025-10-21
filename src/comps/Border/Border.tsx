@@ -1,6 +1,6 @@
 import { generateHilbertBorder, generateSnakeBorder, Point, pointsToCompleteSvgPath, pointsToSvgPolyline } from "./peano";
 import hilbertStyles from "./Border.module.css";
-import mainStyle from '../../styles/Style.module.css'
+import ambientStyle from "./../../App.module.css"
 import { useEffect, useRef } from "react";
 import styles from "../../styles/styles";
 
@@ -35,7 +35,7 @@ export const Border = ({ blockHeight, width, themeIndex, children, iter = 3, pas
     themeIndex  ??= 0;
     if (passThrough) {
         return (
-            <div className={`${mainStyle.outer} ${styleModule.outer}`} style={{
+            <div className={`${ambientStyle.outer} ${styleModule.outer}`} style={{
                 width: "100%",
                 height: blockHeight + PADDING * 2,
                 margin: "0 auto",
@@ -258,7 +258,7 @@ export const Border = ({ blockHeight, width, themeIndex, children, iter = 3, pas
 
 
     return (
-    <div ref={refOuter} className={`${mainStyle.outer} ${styleModule.outer}`} style={{
+    <div ref={refOuter} className={`${ambientStyle.outer} ${styleModule.outer}`} style={{
         width: "100%",
         height: totalHeight,
         margin: "0 auto",
@@ -271,7 +271,7 @@ export const Border = ({ blockHeight, width, themeIndex, children, iter = 3, pas
             // onMouseEnter={doHoverScale ? svgMouseOverHandler : undefined}
             // onMouseLeave={doHoverScale ? svgMouseOutHandler : undefined}
             onMouseOut={svgMouseOutHandler}
-            ref={refSvg} className={`${mainStyle.svg} ${styleModule.svg}`} width={`${CANV_WIDTH}px`} height={totalHeight} viewBox={`-${PADDING} -${PADDING} ${720 + PADDING * 2} ${totalHeight + PADDING * 2}`}>
+            ref={refSvg} className={`${ambientStyle.svg} ${styleModule.svg}`} width={`${CANV_WIDTH}px`} height={totalHeight} viewBox={`-${PADDING} -${PADDING} ${720 + PADDING * 2} ${totalHeight + PADDING * 2}`}>
 
             <path
                 className={[hilbertStyles.polyline2, styleModule.polyline2].join(" ")} 
@@ -326,7 +326,7 @@ export const Border = ({ blockHeight, width, themeIndex, children, iter = 3, pas
         </svg>
         <div 
             ref={refInnerBox}
-            className={`${mainStyle.inner} ${styleModule.inner}`}
+            className={`${ambientStyle.inner} ${styleModule.inner}`}
             style={{
                 width: totalWidth - gapSize * 2 - PADDING * 4 - blockHeight * 2,
                 height: blockHeight - gapSize - PADDING * 2,

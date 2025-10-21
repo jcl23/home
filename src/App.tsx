@@ -1,39 +1,56 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react';
 
-import './App.css'
+import './App.css';
+import { paths, points } from "./data/stateTransitionPaths.ts";
+import ambientStyle from "./App.module.css";
+import layouts from "./styles/Layouts.module.css"; 
 import styles from './styles/styles.ts';
-import mainStyle from './styles/Style.module.css'
 import { anim } from './styles/animation'
 import { TRANSITION_DURATION } from './styles/animCfg'
 import { ThemeSelector } from './ThemeSelector/ThemeSelector'
 import { TextTransition } from './comps/TextTransition/TextTransition.tsx';
-import { generateHilbertBorder, generateHilbertCurve, generateHilbertEdge, pointsToSvgPolyline } from './comps/Border/peano.ts';
-import { projects } from './data/projects.tsx';
 import { Border } from './comps/Border/Border.tsx';
+import { usePathTransition } from './usePathTransition.ts';
 
 const themes = styles;
 
 
-function App() {
+const App = function () {
 
-
+  const refs = {
+    outer: useRef(null),
+    name: useRef(null),
+    contact: useRef(null),
+    contact2: useRef(null),
+    p1: useRef(null),
+    p2: useRef(null),
+    p3: useRef(null),
+    p4: useRef(null),    
+  };
   // THEME STUFF
-  const [themeIndex, unsafeSetThemeIndex] = useState(0);
-  const setThemeIndex = (index: number) => {
-    if (!Number.isInteger(index)) {
-      console.error("Theme index is not an integer");
-      return;
-    }
-    unsafeSetThemeIndex(index);
-  }
-  
+  const start = points[0];
   const [duration, setDuration] = useState(TRANSITION_DURATION);
+  const [[lastLayoutIndex, currentLayoutIndex], setLayoutIndices] = useState([start, start]);
+  const setTarget = (index: number) => {
+    setLayoutIndices((prev) => {
+      if (prev[1] === index) return prev; // No change
+      return [prev[1], index];
+    });
+  }
 
-  const style = themes[themeIndex];
-  const n =  4;
-  // const points = generateHilbertBorder(100);
-  // console.log({points})
-  // const svgPoints = pointsToSvgPolyline(points);
+  const smoothLayoutIndex = usePathTransition(
+    points,
+    paths,
+    lastLayoutIndex,
+    currentLayoutIndex,
+    600, // Duration in milliseconds
+  );
+  
+  const themeIndex = points.indexOf(currentLayoutIndex)
+
+  const style = themes[points.indexOf(currentLayoutIndex)];
+
+
 
   const width = [
     248.5, 248.5, 248.5, 248.5, 248.5//250, 300, 400
@@ -46,16 +63,24 @@ function App() {
   }
 
   const [selectedPassageIndex, setSelectedPassageIndex] = useState(-1);
+  // const rulesFor = (className: string) => `${styles[themeIndex][className]} ${layouts[className + "_" + smoothLayoutIndex]}`;
+  const classesFor = (className: string) => `
+    ${ambientStyle[className]}
+    ${styles[themeIndex][className]} 
+    ${layouts[className + "_" + smoothLayoutIndex]}`;
+
+
 
   return (
     <div 
-      className={`${mainStyle.outer} ${style.outer}`}
+      className={`${ambientStyle.outer} ${style.outer}`}
       onClick={(e) => {
         setSelectedPassageIndex(-1);
       }}
     >
       <div 
-      className={mainStyle.debug}>
+      className={ambientStyle.debug}>
+        <h2>ThemeIndex: {themeIndex}, LayoutIndex: {currentLayoutIndex}</h2>
         <label htmlFor="durationSlider">Transition Duration:</label>
         <input
           id="durationSlider" type="range" min="0" max="4" step="1"
@@ -67,8 +92,8 @@ function App() {
         />
         <span>{duration} ms</span>
       </div>
-      <div className={`${mainStyle.main} ${style.main}`}>
-        <div className={`${mainStyle.header} ${style.header}`}>
+      <div className={classesFor("outer")}>
+        {/* <div className={`${mainStyle.header} ${style.header}`}>
           <div> <button className={`${mainStyle.button} ${style.button}`}>
               Projects
           </button> </div>
@@ -82,112 +107,28 @@ function App() {
               3
             </button>
           </div>
+        </div> */}
+        {/* Name Section */}
+        <div className={[style.name, ambientStyle.name].join(' ')}>
+          <Border iter={3} blockHeight={60} width={width} themeIndex={themeIndex} passThrough={false}>
+            <TextTransition text="Justin&nbsp;Lee" themeIndex={themeIndex} duration={duration} />
+          </Border>  
         </div>
-        <div className={[style.name, mainStyle.name].join(' ')}>
-          
-          <Border iter={3} blockHeight={60} width={width} themeIndex={themeIndex}  passThrough={false}>
-              <TextTransition text="Justin&nbsp;Lee" themeIndex={themeIndex} duration={duration}  /> 
-          </Border>
-         
-        </div>
-        {/* <svg className={style.svg} width={10 + n * 100} height={110} viewBox={`-5 -5  ${10 + n * 100} 110`}>
-          <polyline points={svgPoints} />
-          <polyline points={svgPoints} />
-        </svg> */}
-      <div className={[style.body, mainStyle.body].join(' ')}>
-          {/* <button ref={toggleThemeButtonRef} onClick={(e) => {
 
-          }}>Current theme: {themeIndex}</button> */}
-          <ThemeSelector currentIndex={themeIndex} setIndex={setThemeIndex} />
-          <div className={`${style.nameOuter} ${mainStyle.nameOuter}`}>
-          </div>
-          {/* Do mainStyle and style, for div class "card" and its two children divs, classes "card_header" and "card_body" */}
-          {/* Card 1 */}
-          <div className={style.card_list} >
-            {projects.map((project, i) => (
-              <div 
-                key={i}
-                className={`${mainStyle.card} ${style.card} ${selectedPassageIndex === i + 1 ? style.selected : ''}`} 
-                onClick={(e) => {
-                  setSelectedPassageIndex(i + 1);
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-              >
-                <h1 
-                  className={`${mainStyle.card_banner} ${style.card_banner}`}
-                >
-                 
-                  <Border blockHeight={26} width={720 - 60} themeIndex={themeIndex} iter={2} passThrough={false} stackHeight={4}>
-                     <p className={`${""} ${style.name_peano}`} style={{marginTop:"-6px"}}>  {project.name}</p>
-                  </Border>
-          
-                </h1>
-                <div className={`${mainStyle.card_header} ${style.card_header}`}>
-                  
-                </div>
-                <div className={`${mainStyle.card_body} ${style.card_body}`}>
-                {project.body}
-                  <a href={project.link}>See Demo</a>
-                </div>
-              </div>
-            ))}
-           
-          </div>
+        <div ref={refs.outer} className={classesFor("layoutBorder")}>
+          <div ref={refs.name} className={classesFor("name")}>Name</div>
+          <div ref={refs.contact} className={classesFor("contact")}>Contact</div>
+          <div ref={refs.contact2} className={classesFor("contact2")}>2Contact</div>
+          <div ref={refs.p1} className={classesFor("p1")}>P1</div>
+          <div ref={refs.p2} className={classesFor("p2")}>P2</div>
+          <div ref={refs.p3} className={classesFor("p3")}>P3</div>
+          <div ref={refs.p4} className={classesFor("p4")}>P4</div>
         </div>
+    
+        </div>
+        <ThemeSelector points={points} currentIndex={themeIndex} setIndex={setTarget} />
       </div>
-    </div>
+
   )
 }
-{/* <div 
-className={`${mainStyle.card} ${style.card} ${selectedPassageIndex === 0 ? style.selected : ''}`}  */}
-//>
-{/* This next thing should have class name banner */}
-{/* <h1 
-  className={`${mainStyle.card_banner} ${style.card_banner}`}
-  onClick={(e) => {
-    setSelectedPassageIndex(0);
-    e.preventDefault();
-    e.stopPropagation();
-  }}
->
-    Homology Calculator
-  </h1>
-<div className={`${mainStyle.card_header} ${style.card_header}`}>
-    Construct spaces and calculate their homology in seconds.
-</div>
-<div className={`${mainStyle.card_body} ${style.card_body}`}>
-This interactive CW‑complex calculator is an educational tool designed to teach the fundamentals of topology—especially homology—by letting you build spaces and compute their homological features. With a solid grasp of homology, you'll be better equipped to understand advanced topics such as <a href="https://math.stackexchange.com/questions/73690/real-life-applications-of-topology">topological data analysis</a>, sensor network coverage, and robotic <a href="https://en.wikipedia.org/wiki/Configuration_space">configuration spaces</a>. These core concepts are also essential for exploring the classification of <a href="https://en.wikipedia.org/wiki/Topological_insulator">quantum materials</a>, analyzing <a href="https://en.wikipedia.org/wiki/Connectome">brain connectivity</a>, and enhancing modern AI through <a href="https://en.wikipedia.org/wiki/Topological_deep_learning">topological deep learning</a>. Master homology with our tool and build the mathematical foundation that underpins these cutting‑edge applications.
-<a href="https://jcl23.github.io/homology/">See Demo</a>
-</div>
-</div> */}
-// {/* Card 1 */}
-
-// <div 
-// className={`${mainStyle.card} ${style.card} ${selectedPassageIndex === 1 ? style.selected : ''}`} 
-// onClick={(e) => {
-//   setSelectedPassageIndex(1);
-// }}
-// >
-// <div className={`${mainStyle.card_header} ${style.card_header}`}>
-//   123
-// </div>
-// <div className={`${mainStyle.card_body} ${style.card_body}`}>
-//   Description 1
-// </div>
-// </div>
-// {/* Card 1 */}
-// <div 
-// className={`${mainStyle.card} ${style.card} ${selectedPassageIndex === 2 ? style.selected : ''}`} 
-// onClick={(e) => {
-//   setSelectedPassageIndex(2);
-// }}
-// >
-// <div className={`${mainStyle.card_header} ${style.card_header}`}>
-//   123
-// </div>
-// <div className={`${mainStyle.card_body} ${style.card_body}`}>
-//   Description 1
-// </div>
-// </div>
-export default App
+export default App;

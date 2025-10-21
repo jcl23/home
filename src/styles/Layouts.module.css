@@ -1,0 +1,373 @@
+.contact_0, .contact_2, .contact_3 {
+    height: 50%;
+    left: 10%;
+    top: 30%;
+    width: 30%;
+}
+
+.contact_1 {
+    height: 0%;
+    left: 10%;
+    top: 80%;
+    width: 0%;
+}
+
+.contact_4 {
+    height: 10%;
+    left: 10%;
+    top: 80%;
+    width: 30%;
+}
+
+.contact_5 {
+    height: 10%;
+    left: 10%;
+    top: 80%;
+    width: 80%;
+}
+
+.contact_8 {
+    height: 0%;
+    left: 10%;
+    top: 90%;
+    width: 80%;
+}
+
+.contact_6, .contact_9 {
+    height: 50%;
+    left: 10%;
+    opacity: 0;
+    top: 30%;
+    width: 0%;
+}
+
+.contact_7 {
+    height: 0%;
+    left: 10%;
+    opacity: 0;
+    top: 80%;
+    width: 80%;
+}
+
+.contact2_1 {
+    height: 20%;
+    left: 60%;
+    top: 10%;
+    width: 30%;
+}
+
+.contact2_0 {
+    height: 20%;
+    left: 90%;
+    opacity: 0;
+    top: 10%;
+    width: 0%;
+}
+
+.name_0, .name_2, .name_3, .name_4, .name_5, .name_8 {
+    height: 20%;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+}
+
+.name_1 {
+    height: 20%;
+    left: 10%;
+    top: 10%;
+    width: 50%;
+}
+
+.name_6, .name_7, .name_9 {
+    height: 20%;
+    left: 30%;
+    top: 10%;
+    width: 40%;
+}
+
+.layoutBorder_0, .layoutBorder_1, .layoutBorder_2, .layoutBorder_3, .layoutBorder_4, .layoutBorder_5, .layoutBorder_6, .layoutBorder_7, .layoutBorder_8, .layoutBorder_9 {
+    border: 1px solid black;
+    height: 480px;
+    position: relative;
+    width: 640px;
+}
+
+.p1_0 {
+    height: 12.5%;
+    left: 40%;
+    top: 30%;
+    width: 50%;
+}
+
+.p1_1 {
+    height: 12.5%;
+    left: 10%;
+    top: 30%;
+    width: 80%;
+}
+
+.p1_2 {
+    height: 12.5%;
+    left: 40%;
+    top: 30%;
+    width: 25%;
+}
+
+.p1_3 {
+    height: 25%;
+    left: 40%;
+    top: 30%;
+    width: 25%;
+}
+
+.p1_4 {
+    height: 12.5%;
+    left: 40%;
+    top: 30%;
+    width: 12.5%;
+}
+
+.p1_5 {
+    height: 50%;
+    left: 10%;
+    top: 30%;
+    width: 20%;
+}
+
+.p1_6 {
+    height: 25%;
+    left: 10%;
+    top: 30%;
+    width: 35%;
+}
+
+.p1_7 {
+    height: 25%;
+    left: 10%;
+    top: 30%;
+    width: 20%;
+}
+
+.p1_8 {
+    height: 12.5%;
+    left: 10%;
+    top: 30%;
+    width: 20%;
+}
+
+.p1_9 {
+    height: 12.5%;
+    left: 10%;
+    top: 30%;
+    width: 35%;
+}
+
+.p2_0 {
+    height: 12.5%;
+    left: 40%;
+    top: 42.5%;
+    width: 50%;
+}
+
+.p2_1 {
+    height: 12.5%;
+    left: 10%;
+    top: 42.5%;
+    width: 80%;
+}
+
+.p2_2 {
+    height: 12.5%;
+    left: 65%;
+    top: 42.5%;
+    width: 25%;
+}
+
+.p2_3 {
+    height: 25%;
+    left: 65%;
+    top: 30%;
+    width: 25%;
+}
+
+.p2_4 {
+    height: 12.5%;
+    left: 52.5%;
+    top: 42.5%;
+    width: 12.5%;
+}
+
+.p2_5 {
+    height: 50%;
+    left: 30%;
+    top: 30%;
+    width: 20%;
+}
+
+.p2_6 {
+    height: 25%;
+    left: 55%;
+    top: 30%;
+    width: 35%;
+}
+
+.p2_7 {
+    height: 25%;
+    left: 30%;
+    top: 30%;
+    width: 20%;
+}
+
+.p2_8 {
+    height: 12.5%;
+    left: 30%;
+    top: 42.5%;
+    width: 20%;
+}
+
+.p2_9 {
+    height: 12.5%;
+    left: 55%;
+    top: 42.5%;
+    width: 35%;
+}
+
+.p3_0 {
+    height: 12.5%;
+    left: 40%;
+    top: 55%;
+    width: 50%;
+}
+
+.p3_1 {
+    height: 12.5%;
+    left: 10%;
+    top: 55%;
+    width: 80%;
+}
+
+.p3_2 {
+    height: 12.5%;
+    left: 40%;
+    top: 55%;
+    width: 25%;
+}
+
+.p3_3 {
+    height: 25%;
+    left: 40%;
+    top: 55%;
+    width: 25%;
+}
+
+.p3_4 {
+    height: 12.5%;
+    left: 65%;
+    top: 55%;
+    width: 12.5%;
+}
+
+.p3_5 {
+    height: 50%;
+    left: 50%;
+    top: 30%;
+    width: 20%;
+}
+
+.p3_6 {
+    height: 25%;
+    left: 10%;
+    top: 55%;
+    width: 35%;
+}
+
+.p3_7 {
+    height: 25%;
+    left: 50%;
+    top: 55%;
+    width: 20%;
+}
+
+.p3_8 {
+    height: 12.5%;
+    left: 50%;
+    top: 55%;
+    width: 20%;
+}
+
+.p3_9 {
+    height: 12.5%;
+    left: 10%;
+    top: 55%;
+    width: 35%;
+}
+
+.p4_0 {
+    height: 12.5%;
+    left: 40%;
+    top: 67.5%;
+    width: 50%;
+}
+
+.p4_1 {
+    height: 12.5%;
+    left: 10%;
+    top: 67.5%;
+    width: 80%;
+}
+
+.p4_2 {
+    height: 12.5%;
+    left: 65%;
+    top: 67.5%;
+    width: 25%;
+}
+
+.p4_3 {
+    height: 25%;
+    left: 65%;
+    top: 55%;
+    width: 25%;
+}
+
+.p4_4 {
+    height: 12.5%;
+    left: 77.5%;
+    top: 67.5%;
+    width: 12.5%;
+}
+
+.p4_5 {
+    height: 50%;
+    left: 70%;
+    top: 30%;
+    width: 20%;
+}
+
+.p4_6 {
+    height: 25%;
+    left: 55%;
+    top: 55%;
+    width: 35%;
+}
+
+.p4_7 {
+    height: 25%;
+    left: 70%;
+    top: 55%;
+    width: 20%;
+}
+
+.p4_8 {
+    height: 12.5%;
+    left: 70%;
+    top: 67.5%;
+    width: 20%;
+}
+
+.p4_9 {
+    height: 12.5%;
+    left: 55%;
+    top: 67.5%;
+    width: 35%;
+}

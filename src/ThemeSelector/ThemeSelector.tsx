@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { points } from '../data/stateTransitionPaths';
 import selectorStyle from "./ThemeSelector.module.css";
 import styles from '../styles/styles';
 
@@ -8,11 +8,12 @@ import icon3 from "../assets/icons/32.png"
 import icon4 from "../assets/icons/42.png"
 import empty from "../assets/icons/empty.png"
 type ThemeSelectorProps = {
+  points: number[];
   currentIndex: number;
   setIndex: (index: number) => void;
 };
 const icons = [icon1,  icon4, icon3,empty, empty]
-export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ currentIndex, setIndex }) => {
+export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ points, currentIndex, setIndex }) => {
   return (
     <div style={{ 
       display: 'flex', 
@@ -34,9 +35,8 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ currentIndex, setI
             style={{
               backgroundImage: `url(${icons[index]})`,
               backgroundSize: 'cover',
-
             }}
-            onClick={() => setIndex(index)}
+            onClick={() => setIndex(points[index])}
             aria-label={`Theme ${index + 1}`}
             aria-pressed={currentIndex === index}
           />

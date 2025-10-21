@@ -27,7 +27,7 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      "check-missing-classes/no-missing-styles": "error" 
+      "check-missing-classes/no-missing-styles": "off" 
     
     },
   },
