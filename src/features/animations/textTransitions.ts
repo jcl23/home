@@ -1,5 +1,5 @@
 import React from "react";
-import { getTextDims } from "./getTextWidth";
+import { getTextDims } from "../../shared/utils/getTextWidth";
 
 
 // Spreading algorithm shit

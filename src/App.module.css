@@ -4,6 +4,57 @@
     padding: 2rem;
     text-align: center;
 }
+
+.outer {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+      border: 1px solid black; 
+    position: relative;   
+    transition: all 0.3s ease-in-out;
+}
+
+.outer >  div {
+    overflow: hidden;
+    position: absolute;
+    transition: all 0.25s ease-in-out;
+    border: 1px solid red;
+}
+
+.layoutBorder {
+    max-width: 720px;
+    width: 100%;
+    height: calc(100% - var(--debug-height) - 2px);
+    margin: 0 auto;
+    border: 1px solid black; 
+    position: relative;   
+    transition: all 0.3s ease-in-out;
+}
+
+.layoutBorder > div {
+    overflow: hidden;
+    position: absolute;
+    transition: all 0.25s ease-in-out;
+    border: 1px solid red;
+}
+
+.name {
+    text-align: center;
+    transition: 0.5s;
+    min-width: 20px;
+    line-height: -3px;
+}
+
+.svg {
+    display: block; /* Minimal property to avoid empty ruleset warning */
+    /* transition-property: width;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out; */
+}
+
+/* ========== COMMENTED/UNUSED STYLES ========== */
+
 /* .debug {
     height :var(--debug-height);
     background: #3f3f3f;
@@ -42,42 +93,7 @@
         cursor: pointer;
     } */
 
-.outer {
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    position: relative;
-      border: 1px solid black; 
-    position: relative;   
-    transition: all 0.3s ease-in-out;
-}
-
-.outer >  div {
-    overflow: hidden;
-    position: absolute;
-    transition: all 0.25s ease-in-out;
-    border: 1px solid red;
-}
-
-
-.layoutBorder {
-    max-width: 720px;
-    width: 100%;
-    height: calc(100% - var(--debug-height) - 2px);
-    margin: 0 auto;
-    border: 1px solid black; 
-    position: relative;   
-    transition: all 0.3s ease-in-out;
-}
-
-.layoutBorder > div {
-    overflow: hidden;
-    position: absolute;
-    transition: all 0.25s ease-in-out;
-    border: 1px solid red;
-}
-
-
+/* UNUSED - Only in commented code
 .header {
     width: 100%;
     display: flex;
@@ -115,13 +131,9 @@
 .button:hover::before {
     opacity: 1;
   }
-.name {
-    text-align: center;
-    transition: 0.5s;
-    min-width: 20px;
-    line-height: -3px;
-}
+*/
 
+/* UNUSED - Not found in active code  
 .nameOuter {
    transition: width 0.5s;
     white-space: nowrap;
@@ -136,7 +148,9 @@
     display: flex;
     align-items: flex-end;
 }
+*/
 
+/* UNUSED - Only in commented code
 .card {
 
 }
@@ -154,16 +168,11 @@
 
     transition-property: width, border-width, margin, border-color, background-color;
 }
+*/
 
-.svg {
-
-
-
-    /* transition-property: width;
-    transition-duration: 0.5s;
-    transition-timing-function: ease-in-out; */
-}
+/* 
 .svg:active {
     /* /transform: translateY(5px); */
-}
+/* }
+*/
 

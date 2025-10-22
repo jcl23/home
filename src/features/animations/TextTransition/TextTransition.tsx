@@ -1,8 +1,7 @@
 import { useRef, createRef, useEffect } from "react";
-import { NAME_ANIMS } from "../../styles/animCfg";
-import styles from "../../styles/styles";
+import { NAME_ANIMS } from "../animCfg";
+import styles from "../../themes/styles";
 import textStyles from "./TextTransition.module.css";
-import aurora from "../aurora.module.css";
 type TextTransitionProps = {
     text: string;
     themeIndex: number;

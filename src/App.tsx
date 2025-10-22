@@ -1,16 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import './App.css';
-import { paths, points } from "./data/stateTransitionPaths.ts";
+import { paths, points } from "./shared/constants/stateTransitionPaths";
 import ambientStyle from "./App.module.css";
-import layouts from "./styles/Layouts.module.css"; 
-import styles from './styles/styles.ts';
-import { anim } from './styles/animation'
-import { TRANSITION_DURATION } from './styles/animCfg'
-import { ThemeSelector } from './ThemeSelector/ThemeSelector'
-import { TextTransition } from './comps/TextTransition/TextTransition.tsx';
-import { Border } from './comps/Border/Border.tsx';
-import { usePathTransition } from './usePathTransition.ts';
+import layouts from "./features/layout/Layouts.module.css"; 
+import styles from './features/themes/styles';
+import { TRANSITION_DURATION } from './features/animations/animCfg'
+import { ThemeSelector } from './features/themes'
+import { TextTransition } from './features/animations';
+import { Border } from './features/animations';
+import { usePathTransition } from './features/layout';
 
 const themes = styles;
 

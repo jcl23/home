@@ -1,12 +1,11 @@
 import React from 'react';
-import { points } from '../data/stateTransitionPaths';
 import selectorStyle from "./ThemeSelector.module.css";
-import styles from '../styles/styles';
+import styles from '../styles';
 
-import icon1 from "../assets/icons/1.png"
-import icon3 from "../assets/icons/32.png"
-import icon4 from "../assets/icons/42.png"
-import empty from "../assets/icons/empty.png"
+import icon1 from "../../../assets/icons/1.png"
+import icon3 from "../../../assets/icons/32.png"
+import icon4 from "../../../assets/icons/42.png"
+import empty from "../../../assets/icons/empty.png"
 type ThemeSelectorProps = {
   points: number[];
   currentIndex: number;

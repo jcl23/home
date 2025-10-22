@@ -1,8 +1,8 @@
 import { generateHilbertBorder, generateSnakeBorder, Point, pointsToCompleteSvgPath, pointsToSvgPolyline } from "./peano";
 import hilbertStyles from "./Border.module.css";
-import ambientStyle from "./../../App.module.css"
+import ambientStyle from "../../../App.module.css"
 import { useEffect, useRef } from "react";
-import styles from "../../styles/styles";
+import styles from "../../themes/styles";
 
 
 type HilbertBorderProps = {
