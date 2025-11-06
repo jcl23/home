@@ -47,6 +47,21 @@ export function generateSnakeBorder(height = 100, width = 0, iteration = 3, stac
   return generateBorderFromBlock(snakePoints, height, width, stackHeight);
 }
 
+export function printPointsDebug(pts: Point[], name: string) {
+  let minX = Infinity; let minY = Infinity;
+  let maxX = -Infinity; let maxY = -Infinity;
+  for (const pt of pts) {
+    const {x, y} = pt;
+    if (x < minX) minX = x;
+    if (y < minY) minY = y;
+    if (x > maxX) maxX = x;
+    if (y > maxY) maxY = y;
+  };
+  console.log(`Points debug for ${name}:
+${minX.toFixed(2)} <= x <= ${maxX.toFixed(2)}
+${minY.toFixed(2)} <= y <= ${maxY.toFixed(2)}`
+  )
+}
 export function generateBorderFromBlock(block: Point[], height: number, width: number, stackHeight: number): Point[] {
   const spacing = height / ((2 ** 3) - 1);
   const minX = Math.min(...block.map(p => p.x));
@@ -57,7 +72,9 @@ export function generateBorderFromBlock(block: Point[], height: number, width: n
   const invertAndShifted = block.map(p => ({ x: height + width  - p.x, y: height - p.y }));
   // shift block 1 heights worth left.
   block.forEach((p, i, arr) => { arr[i].x += height; });
-  return [...block, ...invertAndShifted];
+  const retVal = [...block, ...invertAndShifted];
+  printPointsDebug(retVal, "generateBorderFromBlock")
+  return retVal;
 }
   // const leftBoxPoints = block.map(p => ({ x: height - p.y, y: p.x }));
 export function generateHilbertBorder(height = 100, width = 0, iteration = 3, stackHeight = 1): Point[] {
@@ -146,5 +163,5 @@ export function pointsToSvgPolyline(points: Point[]): string {
 
 export function pointsToCompleteSvgPath(points: Point[]): string {
     // should be able to be put directly into a path element in svg
-    return "M" + points.map(p => `${p.x},${p.y}`).join(" L ");
+    return "M" + points.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2).replace(/(\.00|0)$/,"")}`).join(" L ");
 }

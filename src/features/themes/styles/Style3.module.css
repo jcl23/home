@@ -106,7 +106,7 @@
     filter: blur(0.4px);
     letter-spacing: 0.05em;
     font-family: 'W95FA';
-    font-size: 1.65em;
+    /* font-size: 1.65em; */
     font-weight: bold;
     font-stretch: expanded;
     color: var(--r3_fg)

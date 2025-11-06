@@ -1,36 +1,133 @@
 import { generateHilbertBorder, generateSnakeBorder, Point, pointsToCompleteSvgPath, pointsToSvgPolyline } from "./peano";
 import hilbertStyles from "./Border.module.css";
 import ambientStyle from "../../../App.module.css"
-import { useEffect, useRef } from "react";
+import { useMemo, useRef } from "react";
 import styles from "../../themes/styles";
-
 
 type HilbertBorderProps = {
     blockHeight: number;
     stackHeight?: number;
-    width: number;
     children: React.ReactNode;
+    pathIndices: [number, number];
     themeIndex: number;
     iter?: number;
     passThrough?: boolean;
 };
 
-
-
+type BorderPaths = {
+    startingPath: string;
+    widePath: string;
+    startingPoints: Point[];
+    widePoints: Point[];
+    adjacentDifference: number;
+    pointsPerSide: number;
+};
 
 const PADDING = 5;
 const GAP_PROP = 1;
-const CANV_WIDTH = 720;
 
+const big = 570
+const widths = [
+    big, 350, big, big, 570, 570, 280, 280, 570, 280
+];
+// Cache for memoizing border calculations
+const borderCache = new Map<string, BorderPaths>();
 
-export const Border = ({ blockHeight, width, themeIndex, children, iter = 3, passThrough = false, stackHeight = 1}: HilbertBorderProps) => {
+/**
+ * Constructs border paths for a given theme index
+ * Results are cached to avoid recalculation
+ */
+function constructBorderPaths(
+    themeTo: number,
+    pathTo: number,
+    blockHeight: number,
+    iter: number,
+    stackHeight: number
+): BorderPaths {
+    const MEMOIZE = false;
+    // Create cache key from parameters
+    const cacheKey = `${pathTo}-${blockHeight}-${iter}-${stackHeight}`;
     
+    // Return cached result if available
+    if (MEMOIZE && borderCache.has(cacheKey)) {
+        return borderCache.get(cacheKey)!;
+    }
+
+    // Calculate border paths
+    const width = widths[pathTo];
+    const mode = ["hilbert", "snake", "dots", "dots", "dots"][themeTo] ?? "hilbert";
+    const center = blockHeight / 2 + width / 2;
+    const left = blockHeight;
+    const right = blockHeight + width;
+    
+    const hilbertPoints = generateHilbertBorder(blockHeight, 0, iter, stackHeight);
+    const snakePoints = generateSnakeBorder(blockHeight, 0, iter, stackHeight);
+    const startingPoints = mode === "hilbert" ? hilbertPoints : snakePoints;
+    
+    // Offset right side points
+    startingPoints.slice(0, Math.floor(startingPoints.length / 2)).forEach(point => {
+        point.x += width - blockHeight * 2;
+    });
+    startingPoints.push(startingPoints[0]);
+    
+    const startingPath = pointsToCompleteSvgPath(startingPoints);
+    
+    // Create wider version for hover effect
+    const widePoints = startingPoints.map(p => {
+        if (p.x < center) {
+            const distToLeft = p.x - left;
+            return { x: p.x + distToLeft * 0.2, y: p.y };
+        }
+        if (p.x > center) {
+            const distToRight = p.x - right;
+            return { x: p.x + distToRight * 0.2, y: p.y };
+        }
+        return p;
+    });
+    const widePath = pointsToCompleteSvgPath(widePoints);
+    
+    const pointsPerSide = (2 ** iter);
+    const adjacentDifference = blockHeight / (pointsPerSide - 1);
+
+    const result: BorderPaths = {
+        startingPath,
+        widePath,
+        startingPoints,
+        widePoints,
+        adjacentDifference,
+        pointsPerSide
+    };
+
+    // Cache the result
+    borderCache.set(cacheKey, result);
+    
+    return result;
+}
+
+export const Border = ({ blockHeight, pathIndices, themeIndex, children, iter = 3, passThrough = false, stackHeight = 1}: HilbertBorderProps) => {
+
+    const [_pathFrom, pathTo] = pathIndices;
     const styleModule = styles[themeIndex ?? 0];
-    const lastPropValRef = useRef<Record<string, any>>({});
 
-  const doHoverScale = themeIndex === 2;
-  console.log("DoHoverScale:", doHoverScale);
+    const doHoverScale = themeIndex === 2;
+    console.log("DoHoverScale:", doHoverScale);
+    const width = widths[pathTo];
 
+    // Initialize hooks before any conditional returns
+    const refSvg = useRef<SVGSVGElement>(null);
+    const refOuter = useRef<HTMLDivElement>(null);
+    const refInnerBox = useRef<HTMLDivElement>(null);
+
+    // Use memoized border construction
+    const borderPaths = useMemo(
+        () => constructBorderPaths(themeIndex, pathTo, blockHeight, iter, stackHeight),
+        [pathTo, blockHeight, iter, stackHeight]
+    );
+
+    const { 
+        startingPath, 
+        adjacentDifference, 
+    } = borderPaths;
 
     themeIndex  ??= 0;
     if (passThrough) {
@@ -49,229 +146,43 @@ export const Border = ({ blockHeight, width, themeIndex, children, iter = 3, pas
         )
     }
 
-    
-    const mode = ["hilbert", "snake", "dots", "dots", "dots"][themeIndex] ?? "hilbert";
-    // themeIndex == 1 ? "snake" : "hilbert";
-    const center = blockHeight + width / 2;
-    const left = blockHeight;
-    const right = blockHeight + width;
-    const hilbertPoints = generateHilbertBorder(blockHeight, 0, iter, stackHeight);
-    const snakePoints = generateSnakeBorder(blockHeight, 0, iter, stackHeight);
-
-    const startingPoints = mode === "hilbert" ? hilbertPoints : snakePoints;
- 
-    startingPoints.slice(0, Math.floor(startingPoints.length / 2)).forEach(point => {
-        point.x += width;
-    });
-    startingPoints.push(startingPoints[0])
-    const startingPath = pointsToCompleteSvgPath(startingPoints);
-    const widePoints = startingPoints.map(p => {
-        if (p.x < center) {
-            const distToLeft = p.x - left;
-            return { x: p.x + distToLeft * 0.2, y: p.y };
-        }
-        if (p.x > center) {
-            const distToRight = p.x - right;
-            return { x: p.x + distToRight * 0.2, y: p.y };
-        }
-        return p;
-    });
-    const widePath = pointsToCompleteSvgPath(widePoints);
-    if (!Number.isInteger(themeIndex)) {
-        console.log("WTF");
-    }
-
-    const propsObj = {
-        "Theme #": themeIndex + 1,
-        "Points": startingPoints.length,
-        "X Range:": `${Math.min(...startingPoints.map(p => p.x))} - ${Math.max(...startingPoints.map(p => p.x))}`,
-        "Y Range:": `${Math.min(...startingPoints.map(p => p.y))} - ${Math.max(...startingPoints.map(p => p.y))}`,
-        "Width": width,
-        "Height": blockHeight,
-    }
-
-
-    // console.log(`
-    // Theme #: ${themeIndex + 1};
-    // Points: ${points.length};
-    // MIN X: ${Math.min(...points.map(p => p.x))};
-    // MIN Y: ${Math.min(...points.map(p => p.y))};
-    // MAX X: ${Math.max(...points.map(p => p.x))};
-    // MAX Y: ${Math.max(...points.map(p => p.y))};
-    // Width: ${width};
-    // Height: ${blockHeight};
-    // `);
-    const pointsPerSide = (2 ** iter);
-    const pointsBerBox = (pointsPerSide ** 2) * stackHeight;
-    const leftPoints = startingPoints.slice(pointsBerBox);
-    const rightPoints = startingPoints.slice(0, pointsBerBox);
-    const topLeft = leftPoints[0];
-    const bottomLeft = leftPoints[leftPoints.length - 1];
-    const bottomRight = { x: rightPoints[0].x, y: rightPoints[0].y };
-    const topRight = { x: rightPoints[rightPoints.length - 1].x + width, y: rightPoints[rightPoints.length - 1].y };
-
-    const innerBoxLeftX = topLeft.x ;
-    const innerBoxRightX = topLeft.x + width;
-    // console.log("Border points:", points);
-    const adjacentDifference = blockHeight / (pointsPerSide - 1);
-    const leftBorder = pointsToCompleteSvgPath(leftPoints);
-
-
-
-
-
-
-    // set first and last of wides to normal firt and last
-
-
     const totalWidth = blockHeight * 2 + width;
     const gapSize = adjacentDifference * GAP_PROP;
     const strokeLength = adjacentDifference - gapSize;
-
-    const polylineRef1 = useRef<SVGPolylineElement>(null);
-    const polylineRef2 = useRef<SVGPolylineElement>(null);
-
-    const refSvg = useRef<SVGSVGElement>(null);
-    const refOuter = useRef<HTMLDivElement>(null);
-    const refInnerBox = useRef<HTMLDivElement>(null);
-
-    let oldWidthRef = useRef(-1);
-    let oldWidth = oldWidthRef.current;
-
-    const stretchGap = 2;
-/*
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const stretchedLeftPoints = leftPoints.map((point, index) => {
-                const distFromInner = point.x - innerBoxLeftX;
-                if (index === 0) {
-                    return { ...point, x: point.x - distFromInner * 0.2};
-                }
-                return point;
-            });
-
-            const stretchedRightPoints = rightPoints.map((point, index) => {
-                const distFromInner = point.x - innerBoxRightX;
-                if (index === 0) {
-                    return { ...point, x: point.x + distFromInner * 0.2};
-                }
-                return point;
-            });
-
-            const newLeftBorder = pointsToSvgPolyline(stretchedLeftPoints);
-            const newRightBorder = pointsToSvgPolyline(stretchedRightPoints);
-
-            if (polylineRef1.current) {
-                polylineRef1.current.setAttribute("points", newLeftBorder);
-            }
-            if (polylineRef2.current) {
-                polylineRef2.current.setAttribute("points", newRightBorder);
-            }
-
-            setTimeout(() => {
-                if (polylineRef1.current) {
-                    console.log("Resetting polyline points:", leftBorder);
-                    polylineRef1.current.setAttribute("points", leftBorder);
-                    polylineRef1.current.setAttribute("stroke", "black");
-
-                }
-                if (polylineRef2.current) {
-                    polylineRef2.current.setAttribute("points", rightBorder);
-                    polylineRef2.current.setAttribute("stroke", "black");
-
-                }
-            }, 1000); // Reset after 500ms
-        }, 2000); // Alternate every 1 second
-
-        return () => clearInterval(interval);
-    }, [leftPoints, rightPoints, adjacentDifference, leftBorder, rightBorder]);
-
-
-
-
-    useEffect(() => {
-        console.log("UseEffect:", `{width: ${width}, oldWidth: ${oldWidth}}`);
-        
-        if (oldWidth === -1) {
-            oldWidthRef.current = width;
-            return;
-        }
-        const widthDiff = oldWidth - width;
-        oldWidth = width;
-        let animationFrame: number;
-        
-        const duration = 500; // animation duration in ms
-        const startTime = performance.now();
-
-        const animate = (time: number) => {
-
-            const elapsed = time - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            console.log("Progress:", progress);
-            const delta = widthDiff * (1 - progress);
-            const points = [...leftPoints, ...rightPoints.map((point, i) => ({ x: point.x + delta, y: point.y }))];
-            if (polylineRef.current) {
-                console.log("Setting polyline points:", points);
-                polylineRef.current.setAttribute("points", pointsToSvgPolyline(points));
-            } else {
-                console.error("Polyline ref is null");
-            }
-
-            if (progress < 1) {
-                animationFrame = requestAnimationFrame(animate);
-            }
-        };
-        
-        animationFrame = requestAnimationFrame(animate);
-
-        return () => cancelAnimationFrame(animationFrame);
-    }, [width]);
-    */
-    const { x: tx, y: ty} = leftPoints[0];
-    const finalMargin = (720 - blockHeight * 2 - width) / 2;
-    const totalHeight = stackHeight * (blockHeight + PADDING * 2) - PADDING * 2;
-    const svgMouseOverHandler = (e: React.MouseEvent) => {
-        const target = e.target as SVGElement;
-        console.log("MOUEOVER")
-        if (target.tagName.toLowerCase() === "svg") {
-            const paths = target.querySelectorAll("path");
-            paths.forEach((path) => {
-                // Perform an action on each path – for example, update an attribute.
-                path.setAttribute("d", pointsToCompleteSvgPath(widePoints));
-                path.setAttribute("strokeDashArray", `${strokeLength}px,${gapSize*10}px`);
-                // strokeDasharray={`${strokeLength}px,${gapSize}px`}
-
-            });
-
-        }
-    }
+    const totalHeight = stackHeight * (blockHeight + PADDING * 2);
+   
     const svgMouseOutHandler = (e: React.MouseEvent) => {
         const target = e.target as SVGElement;
         if (target.tagName.toLowerCase() === "svg") {
             const paths = target.querySelectorAll("path");
             paths.forEach((path) => {
-                // Perform an action on each path – for example, update an attribute.
                 path.setAttribute("d", startingPath);
             });
         }
     }
-
-
+    
     return (
     <div ref={refOuter} className={`${ambientStyle.outer} ${styleModule.outer}`} style={{
         width: "100%",
         height: totalHeight,
-        margin: "0 auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
     }}>
+        <h6 style={{transform:"translateY(0px)", position: "absolute", zIndex: "100", top: 0, background: "white"}}>
+            {width}, {pathTo}, {themeIndex}
+        </h6>
+
         <svg 
             // onMouseEnter={doHoverScale ? svgMouseOverHandler : undefined}
             // onMouseLeave={doHoverScale ? svgMouseOutHandler : undefined}
             onMouseOut={svgMouseOutHandler}
-            ref={refSvg} className={`${ambientStyle.svg} ${styleModule.svg}`} width={`${CANV_WIDTH}px`} height={totalHeight} viewBox={`-${PADDING} -${PADDING} ${720 + PADDING * 2} ${totalHeight + PADDING * 2}`}>
+            ref={refSvg} className={`${ambientStyle.svg} ${styleModule.svg}`} height={totalHeight} width={`${width}px`}>
+            {/* <animate attributeName="viewBox" to={`-${PADDING} -${PADDING} ${width + PADDING * 2} ${totalHeight}`} dur="1s" fill="freeze" /> */}
+            <animate attributeName="viewBox" to={`-${0} -${0} ${width + 0 * 2} ${totalHeight}`} dur="1s" />
+            <animate attributeName="width" to={`${width}px`} dur="1s" fill="freeze" />
+            <circle cx="0" cy="0" r="3" fill="yellow" />
 
             <path
                 className={[hilbertStyles.polyline2, styleModule.polyline2].join(" ")} 
@@ -279,9 +190,8 @@ export const Border = ({ blockHeight, width, themeIndex, children, iter = 3, pas
                 d={startingPath}
 
                 style={{
-                    transform: `translateX(${finalMargin}px)`,
+                    // transform: `translateX(${finalMargin}px)`,
                     transition: "0.5s",
-                    transitionProperty: "stroke-dashoffset, color, stroke, strokeWidth",
                     strokeWidth: 2,
                 }}
             />
@@ -291,15 +201,12 @@ export const Border = ({ blockHeight, width, themeIndex, children, iter = 3, pas
                 strokeDashoffset={gapSize}
                 strokeDasharray={`${strokeLength}px,${gapSize}px`}
                 style={{
-                    transform: `translateX(${finalMargin}px)`,
                     transition: "0.5s",
-                    transitionProperty: "stroke-dashoffset, color, stroke, strokeWidth",
-
                 }}
                 d={startingPath}
             />
 
-            // <path
+          <path
             //     className={[hilbertStyles.polyline2, styleModule.polyline2].join(" ")} 
             //     strokeWidth="2" 
             //     stroke="black"

@@ -8,8 +8,8 @@ export const usePathTransition = function(
   currentIndex: number, 
   targetIndex: number,
   duration: number
-) {
-  const [activeData, setActiveData] = useState(currentIndex);
+): [number, number] {
+  const [activeData, setActiveData] = useState<[number, number]>([currentIndex, currentIndex]);
 
   useEffect(() => {
     const pCurrent = points.indexOf(currentIndex);
@@ -21,7 +21,9 @@ export const usePathTransition = function(
 
     path.slice(1).forEach((node, i) => {
       setTimeout(() => {
-        setActiveData(node);
+        setActiveData(data => {
+          return [data[1], node];
+        });
       }, interval * (i));
     });
   }, [targetIndex, currentIndex, duration, paths]);

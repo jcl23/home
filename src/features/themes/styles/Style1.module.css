@@ -53,7 +53,6 @@
     position: absolute;
     filter: drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.2));
 
-    left: 0px;
 }
 svg > path {
     fill: none;
@@ -64,7 +63,7 @@ svg > path {
 
 .svg:hover > polyline,
 .svg:hover > path {
-    transform: translateX(120px);
+    /* transform: translateX(120px); */
     
     stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2);
     /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
@@ -105,7 +104,6 @@ svg > path {
 
 .name {
     font-family: 'Inter', Arial, sans-serif;
-    font-size: 1.5em;
     font-weight: bold;
     letter-spacing: 0.0em;
     color: var(--s1_button_fg);

@@ -1,5 +1,8 @@
 :root {
     --debug-height: 40px;
+    --CANV_WIDTH: 720px;
+    --NAME_WIDTH: 300px;
+    --WIPE_TIME: 600ms;
       margin: 0 auto;
     padding: 2rem;
     text-align: center;
@@ -13,12 +16,13 @@
       border: 1px solid black; 
     position: relative;   
     transition: all 0.3s ease-in-out;
+    
 }
 
 .outer >  div {
     overflow: hidden;
     position: absolute;
-    transition: all 0.25s ease-in-out;
+    transition: all var(--WIPE_TIME) ease-in-out;
     border: 1px solid red;
 }
 
@@ -29,28 +33,34 @@
     margin: 0 auto;
     border: 1px solid black; 
     position: relative;   
-    transition: all 0.3s ease-in-out;
+    transition: all var(--WIPE_TIME) ease-in-out;
 }
 
 .layoutBorder > div {
     overflow: hidden;
     position: absolute;
-    transition: all 0.25s ease-in-out;
+    transition: all var(--WIPE_TIME) ease-in-out;
     border: 1px solid red;
 }
 
 .name {
+    width: 100%;
     text-align: center;
-    transition: 0.5s;
+    transition: var(--WIPE_TIME);
     min-width: 20px;
     line-height: -3px;
 }
 
 .svg {
     display: block; /* Minimal property to avoid empty ruleset warning */
-    /* transition-property: width;
-    transition-duration: 0.5s;
-    transition-timing-function: ease-in-out; */
+    transition-property: all;
+    transition-duration: var(--WIPE_TIME);
+    transition-timing-function: ease-in-out;
+}
+.svg > path {
+    transition-property: all;
+    transition-duration: var(--WIPE_TIME);
+    transition-timing-function: ease-in-out;
 }
 
 /* ========== COMMENTED/UNUSED STYLES ========== */
@@ -176,3 +186,7 @@
 /* }
 */
 
+
+.container {
+    width: var(--CANV_WIDTH)   
+}

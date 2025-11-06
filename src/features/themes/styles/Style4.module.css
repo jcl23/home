@@ -31,7 +31,7 @@
 }
 .name {
     font-family: 'CommitMono';
-    font-size: 1.45em;
+    /* font-size: 1.45em; */
     margin-bottom: 2px;
     transform: scaleY(1);
     color: var(--a4);
