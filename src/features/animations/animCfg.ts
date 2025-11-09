@@ -1,6 +1,6 @@
 import { doBlinkIn, doBlockPhaseIn, doPhaseIn, doSnakeIn } from "./textTransitions";
 
-export const TRANSITION_DURATION = 1000;
+export const TRANSITION_DURATION = 600;
 export const NUM_THEMES = 5;
 // export const NAME_ANIMS = [
 //     doBlockPhaseIn,

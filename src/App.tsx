@@ -98,10 +98,10 @@ const App = function () {
         <label htmlFor="durationSlider">Transition Duration:</label>
         <input
           id="durationSlider" type="range" min="0" max="4" step="1"
-          value={[200, 500, 1000, 10000, 100000].indexOf(duration)}
+          value={[200, 600, 1000, 10000, 100000].indexOf(duration)}
           onChange={(e) => {
             const index = parseInt(e.target.value, 10);
-            setDuration([200, 500, 1000, 10000, 100000][index]);
+            setDuration([200, 600, 1000, 10000, 100000][index]);
           }}
         />
         <span>{duration} ms</span>
