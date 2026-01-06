@@ -134,7 +134,7 @@
 .card_banner {
     margin: 2px;
     height: 35px;
-    font-size: 1.4em;
+    /* font-size: 1.4em; */
     filter: blur(0.2px);
     background: -webkit-linear-gradient(left,#08216b,#a5cef7);
     color: #fff;
@@ -148,7 +148,7 @@
 }
 
 .card_body {
-    font-size: 18px;
+    /* font-size: 18px; */
 }
 
 

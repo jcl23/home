@@ -105,6 +105,7 @@ svg > path {
 .name {
     font-family: 'Inter', Arial, sans-serif;
     font-weight: bold;
+    font-size: 30px;
     letter-spacing: 0.0em;
     color: var(--s1_button_fg);
     filter: drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.2));
@@ -146,7 +147,7 @@ svg > path {
     transition-property: transform;
     transition-duration: 0.5s; 
 
-    font-size: 20px;
+    /* font-size: 20px; */
     text-align: left;
     background: linear-gradient(45deg, var(--s1_button_fg) 5.5%, var(--s1_button_bg) 6%, var(--s1_button_bg) 6.5%, var(--s1_button_bg) 93.5%, var(--s1_button_bg) 94%, var(--s1_button_fg) 94.5%, var(--s1_button_fg) 100%);
     font-family: 'AktivGroteskVF', Arial, sans-serif;

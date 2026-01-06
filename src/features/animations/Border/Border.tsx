@@ -1,10 +1,9 @@
-import { generateHilbertBorder, generateSnakeBorder, Point, pointsToCompleteSvgPath, pointsToSvgPolyline } from "./peano";
 import hilbertStyles from "./Border.module.css";
 import ambientStyle from "../../../App.module.css"
 import { useMemo, useRef } from "react";
 import styles from "../../themes/styles";
 import { TRANSITION_DURATION } from "../animCfg";
-import { constructBorderPaths } from "./constructBorderPaths";
+import { constructBorderPaths, HilbertBorderProps } from "./constructBorderPaths";
 
 // Cache for memoizing border calculations
 
@@ -25,7 +24,7 @@ const widths = [
     big, med, big, big, big, big, 280, 280, 570, 280
 ];
 
-export const Border = ({ blockHeight, pathIndices, themeIndex, children, iter = 3, passThrough = false, stackHeight = 1}: HilbertBorderProps) => {
+export const Border = ({ blockHeight, pathIndices, themeIndex, children, iter = 3, passThrough = false, stackHeight = 1, margin = 0}: HilbertBorderProps) => {
 
     const [_pathFrom, pathTo] = pathIndices;
     const styleModule = styles[themeIndex ?? 0];
@@ -41,8 +40,8 @@ export const Border = ({ blockHeight, pathIndices, themeIndex, children, iter = 
 
     // Use memoized border construction
     const borderPaths = useMemo(
-        () => constructBorderPaths(width, themeIndex, pathTo, blockHeight, iter, stackHeight),
-        [pathTo, blockHeight, iter, stackHeight]
+        () => constructBorderPaths(width, themeIndex, pathTo, blockHeight, iter, stackHeight, margin),
+        [width, themeIndex, pathTo, blockHeight, iter, stackHeight, margin]
     );
 
     const { 
@@ -95,14 +94,7 @@ export const Border = ({ blockHeight, pathIndices, themeIndex, children, iter = 
             onMouseOut={svgMouseOutHandler}
             ref={refSvg} className={`${ambientStyle.svg} ${styleModule.svg}`} height={totalHeight } width={`${width}px`}>
             {/* <animate attributeName="viewBox" to={`-${PADDING} -${PADDING} ${width + PADDING * 2} ${totalHeight}`} dur="1s" fill="freeze" /> */}
-            <animate 
-                attributeName="viewBox" 
-                to={`-${PADDING * 1000} -${PADDING} ${width + PADDING * 2} ${totalHeight}`} 
-                dur={`${TRANSITION_DURATION/1000}s`}  
-                // calcMode="spline" 
-                // keySplines="0.4 0 0.2 1" 
-                // keyTimes="0;1"   
-            />
+           
             <circle cx="0" cy="0" r="3" fill="yellow" />
 
             <path

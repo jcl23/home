@@ -128,7 +128,7 @@ const App = function () {
 
         <div ref={refs.outer} className={classesFor("layoutBorder")}>
           <div ref={refs.name} className={classesFor("name")}><div className={[style.name, ambientStyle.name].join(' ')}>
-          <Border iter={3} blockHeight={60} pathIndices={smoothIndices} themeIndex={themeIndex} passThrough={false}>
+          <Border margin={5} iter={3} blockHeight={60} pathIndices={smoothIndices} themeIndex={themeIndex} passThrough={false}>
             <TextTransition text="Justin&nbsp;Lee" themeIndex={themeIndex} duration={duration} />
           </Border>  
         </div></div>

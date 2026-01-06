@@ -1,4 +1,4 @@
-import { useRef, createRef, useEffect } from "react";
+import { useRef, createRef, useEffect, useMemo } from "react";
 import { NAME_ANIMS } from "../animCfg";
 import styles from "../../themes/styles";
 import textStyles from "./TextTransition.module.css";
@@ -18,28 +18,31 @@ export const TextTransition = function( {text, themeIndex,  duration }: TextTran
 
     const words = text.split(/\s+/g);
     const chars = words.map(word => word.split(""))
-    const refs = Array(text.length).fill(0).map(createRef<HTMLDivElement>);
+    const refs = useMemo(() => Array(text.length).fill(0).map(createRef<HTMLDivElement>), [text.length]);
     
     useEffect(() => {
-        resetTransition.current();
+        // to is changed whenever the buttons are pressed (aka themeIndex changes)
+
+       
         const promiseData = NAME_ANIMS[themeIndex](refs, prevStyle.current, to, duration);
         const promises = Array.isArray(promiseData) ? promiseData : [promiseData];
-        const reset = () => {
-            prevStyle.current = to;
-            refs.forEach(ref => {
-                if (ref.current && ref.current.actualText) {
-                    ref.current.innerText = ref.current.actualText;
-                }
-            });
-            resetTransition.current = () => {};
+        promises.forEach(p => p());
+        // const reset = () => {
+        //     prevStyle.current = to;
+        //     refs.forEach(ref => {
+        //         if (ref.current && ref.current.actualText) {
+        //             ref.current.innerText = ref.current.actualText;
+        //         }
+        //     });
+        //     resetTransition.current = () => {};
 
-        }
-        resetTransition.current = reset;
+        // }
+        // resetTransition.current = reset;
         // Reset the transition after the animation is done
-        Promise.all(promises).then(() => {
-            reset();
-            resetTransition.current = () => {};
-        });
+        // Promise.all(promises).then(() => {
+        //     reset();
+        //     resetTransition.current = () => {};
+        // });
 
     }, [to]);
     const widthsByThemeIndex = [

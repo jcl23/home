@@ -9,10 +9,18 @@ export const NUM_THEMES = 5;
 //     doBlockPhaseIn,
 //     doBlockPhaseIn,
 // ]
+// export const NAME_ANIMS = [
+//     doBlockPhaseIn,
+//     doBlinkIn,
+//     doPhaseIn,
+//     doSnakeIn,
+//     doSnakeIn,
+// ]
+
 export const NAME_ANIMS = [
-    doBlockPhaseIn,
-    doBlinkIn,
     doPhaseIn,
-    doSnakeIn,
-    doSnakeIn,
-]
+    doPhaseIn,
+    doPhaseIn,
+    doPhaseIn,
+    doPhaseIn,
+];

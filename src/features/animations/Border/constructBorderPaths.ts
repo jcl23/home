@@ -1,7 +1,7 @@
 import { Point } from "../../../shared/types";
 import { generateHilbertBorder, generateSnakeBorder, pointsToCompleteSvgPath } from "./peano";
 
-type HilbertBorderProps = {
+export type HilbertBorderProps = {
     blockHeight: number;
     stackHeight?: number;
     children: React.ReactNode;
@@ -9,6 +9,7 @@ type HilbertBorderProps = {
     themeIndex: number;
     iter?: number;
     passThrough?: boolean;
+    margin?: number;
 };
 
 type BorderPaths = {
@@ -30,10 +31,11 @@ export const constructBorderPaths = function(
     blockHeight: number,
     iter: number,
     stackHeight: number,
+    margin: number = 0,
 ): BorderPaths {
     const MEMOIZE = false;
     // Create cache key from parameters
-    const cacheKey = `${pathTo}-${blockHeight}-${iter}-${stackHeight}`;
+    const cacheKey = `${pathTo}-${blockHeight}-${iter}-${stackHeight}-${margin}`;
     
     // Return cached result if available
     if (MEMOIZE && borderCache.has(cacheKey)) {
@@ -50,23 +52,30 @@ export const constructBorderPaths = function(
     const hilbertPoints = generateHilbertBorder(blockHeight, 0, iter, stackHeight);
     const snakePoints = generateSnakeBorder(blockHeight, 0, iter, stackHeight);
     const startingPoints = mode === "hilbert" ? hilbertPoints : snakePoints;
-    
+     
     // Offset right side points
     startingPoints.slice(0, Math.floor(startingPoints.length / 2)).forEach(point => {
         point.x += width - blockHeight * 2;
     });
-    startingPoints.push(startingPoints[0]);
+    startingPoints.push({... startingPoints[0]});
     
+
+    if (margin !== 0) {
+        startingPoints.forEach(point => {
+            point.x += margin;
+            point.y += margin;
+        });
+    }
     const startingPath = pointsToCompleteSvgPath(startingPoints);
     
     // Create wider version for hover effect
     const widePoints = startingPoints.map(p => {
-        if (p.x < center) {
-            const distToLeft = p.x - left;
+        if (p.x < center + margin) {
+            const distToLeft = p.x - (left + margin);
             return { x: p.x + distToLeft * 0.2, y: p.y };
         }
-        if (p.x > center) {
-            const distToRight = p.x - right;
+        if (p.x > center + margin) {
+            const distToRight = p.x - (right + margin);
             return { x: p.x + distToRight * 0.2, y: p.y };
         }
         return p;
@@ -75,7 +84,10 @@ export const constructBorderPaths = function(
     
     const pointsPerSide = (2 ** iter);
     const adjacentDifference = blockHeight / (pointsPerSide - 1);
+
+        // Apply margin shift to all points
     
+
     const result: BorderPaths = {
         startingPath,
         widePath,
