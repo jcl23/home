@@ -10,13 +10,11 @@
 }
 
 .outer {
-    background:  rgb(107, 199, 217);
-    transition: background-color 0.4s;
-    
+    background-color:  rgb(107, 199, 217);
 }
 
 .header > div {
-    transition-duration: 0.5s;
+
     transition-timing-function: linear;
     margin: 10px;
     border-color: #93abd1 #4f5e78 #71839f #b8cae6;

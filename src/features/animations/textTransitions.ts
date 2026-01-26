@@ -53,7 +53,7 @@ class AnimationScope {
 }
 
 /**
- * New Signature:
+ * New Signature: 
  * Returns a function that, when called, immediately stops the animation.
  */
 export type TextAnim = (

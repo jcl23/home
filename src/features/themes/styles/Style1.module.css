@@ -21,18 +21,14 @@
 
     }
 }
-.outer {
-    background-color: rgb(201, 237, 209);
-    transition: background-color 0.5s;
-
+.container {
+    background-color: rgb(0, 245, 53);
 }
 .header {
     background: transparent;
-    transition-duration: 0.1s;
     font-family: Arial;
 }
 .header > div {
-    transition-duration: 0.5s;
     /* margin: 0px; */
     border-radius: 5px;
     border-color: rgb(212, 212, 212);
@@ -84,12 +80,10 @@ svg > path {
     color: white;
     border-radius: 0px;
     background-position: 1px 0;
-    transition: border-width 0.1s;
+
     position: relative;
 }
-.container {
-    border: 5px solid black;
-}
+
 .button::after {
     content: '';
     position: absolute;
@@ -137,7 +131,6 @@ svg > path {
 .selected .card_header {
     max-height: 50px;
     overflow: hidden;
-    transition: max-height 0.5s ease-in-out;
 }
 .main2 {
  
@@ -145,7 +138,6 @@ svg > path {
 .card_banner {
     transform: scaleY(1);
     transition-property: transform;
-    transition-duration: 0.5s; 
 
     /* font-size: 20px; */
     text-align: left;

@@ -17,7 +17,7 @@ const themes = styles;
 
 
 const App = function () {
-  const NAME_WIDTH = useMemo(() => {
+    const NAME_WIDTH = useMemo(() => {
         const computedStyle = getComputedStyle(document.documentElement);
         return parseInt(computedStyle.getPropertyValue('--NAME_WIDTH'));
     }, []);
@@ -26,14 +26,14 @@ const App = function () {
     name: useRef(null),
     contact: useRef(null),
     contact2: useRef(null),
-    p1: useRef(null),
-    p2: useRef(null),
-    p3: useRef(null),
-    p4: useRef(null),    
+    proj1: useRef(null),
+    proj2: useRef(null),
+    proj3: useRef(null),
+    proj4: useRef(null),    
   };
   // THEME STUFF
   const start = points[0];
-  const [duration, setDuration] = useState(TRANSITION_DURATION);
+  // const [duration, setDuration] = useState(TRANSITION_DURATION);
   const [debugStep, setDebugStep] = useState(0);
   const [[lastLayoutIndex, currentLayoutIndex], setLayoutIndices] = useState([start, start]);
   const setTarget = (index: number) => {
@@ -42,17 +42,17 @@ const App = function () {
       return [prev[1], index];
     });
   }
-
+  const [modalOpen, setModalOpen] = useState(false);
   const smoothIndices = usePathTransition(
     points,
     paths,
     lastLayoutIndex,
     currentLayoutIndex,
-    duration, // Duration in milliseconds
+    TRANSITION_DURATION, // Duration in milliseconds
   );
   
   const themeIndex = points.indexOf(currentLayoutIndex)
-
+  const numStepsInTransition = paths[points.indexOf(lastLayoutIndex)][points.indexOf(currentLayoutIndex)].length - 1;
   const style = themes[points.indexOf(currentLayoutIndex)];
 
 
@@ -63,84 +63,69 @@ const App = function () {
   }
 
   const [selectedPassageIndex, setSelectedPassageIndex] = useState(-1);
-  // const rulesFor = (className: string) => `${styles[themeIndex][className]} ${layouts[className + "_" + smoothLayoutIndex]}`;
+  const rulesFor = (className: string) => `${styles[themeIndex][className]} ${layouts[className + "_" + smoothIndices[1]]}`;
   const classesFor = (className: string) => `
-    ${ambientStyle[className]}
-    ${styles[themeIndex][className]} 
-    ${layouts[className + "_" + smoothIndices[1]]}`;
+  ${layouts[className + "_" + smoothIndices[1]]}
+  ${ambientStyle[className]}
+  ${styles[themeIndex][className]} 
+  `;
 
+  const animTimePerStep = Math.floor(TRANSITION_DURATION / numStepsInTransition);
 
+  const proj1Click = () => { window.open("https://justinl.me/rotate3"); }
+  const proj2Click = () => { window.open("https://justinl.me/homology"); }
+  const proj3Click = () => {};
+  const proj4Click = () => {};
 
   return (
-    <div 
-    className={ambientStyle.container}
-      // className={`${ambientStyle.outer} ${style.outer}`}
-      onClick={(e) => {
-        setSelectedPassageIndex(-1);
-      }}
-    >
-      <div 
-      className={ambientStyle.debug}>
-        <h2>ThemeIndex: {themeIndex}, LayoutIndex: {smoothIndices[1]}, Smooth: {smoothIndices[1]}, debug: {debugStep}</h2>
-        {
-          Array(TOTAL_STATES).fill(0).map((pt, i) => (
-            <button 
-              key={i}
-              onClick={() => setDebugStep(i)}
-              style={{
-                fontWeight: pt === currentLayoutIndex ? 'bold' : 'normal',
-                backgroundColor: pt === currentLayoutIndex ? '#ddd' : 'transparent'
-              }}
-            >
-              {i}
-            </button>))
-        }
-        <label htmlFor="durationSlider">Transition Duration:</label>
-        <input
-          id="durationSlider" type="range" min="0" max="4" step="1"
-          value={[200, 600, 1000, 10000, 100000].indexOf(duration)}
-          onChange={(e) => {
-            const index = parseInt(e.target.value, 10);
-            setDuration([200, 600, 1000, 10000, 100000][index]);
-          }}
-        />
-        <span>{duration} ms</span>
-      </div>
-        {/* Name Section */}
-        
-        <ThemeSelector points={points} currentIndex={themeIndex} setIndex={setTarget} />
-      <div className={classesFor("outer")}>
-        {/* <div className={`${mainStyle.header} ${style.header}`}>
-          <div> <button className={`${mainStyle.button} ${style.button}`}>
+    <div className={classesFor("container")}
+      onClick={(e) => { setSelectedPassageIndex(-1); }}>
+        {/* <div className={classesFor("modal")}>
+          <div className={classesFor("modalContent")}>
+            <h2>Project Title</h2>
+            <p>Project description goes here.</p>
+            <button onClick={(e) => { e.stopPropagation(); setSelectedPassageIndex(-1); }}>Close</button>
+          </div>
+        </div> */}
+      <div ref={refs.outer}className={classesFor("outer")}     style={{transitionDuration: `${animTimePerStep}ms`}}>
+        <div className={`${ambientStyle.header} ${style.header}`}>
+          <div> <button className={`${ambientStyle.button} ${style.button}`}>
               Projects
           </button> </div>
           <div>
-            <button className={`${mainStyle.button} ${style.button}`}>
+            <button className={`${ambientStyle.button} ${style.button}`}>
               Resume
             </button>
           </div>
           <div>
-            <button className={`${mainStyle.button} ${style.button}`}>
-              3
+            <button className={`${ambientStyle.button} ${style.button}`}>
+              About
             </button>
           </div>
-        </div> */}
+        </div>
 
         <div ref={refs.outer} className={classesFor("layoutBorder")}>
           <div ref={refs.name} className={classesFor("name")}><div className={[style.name, ambientStyle.name].join(' ')}>
-          <Border margin={5} iter={3} blockHeight={60} pathIndices={smoothIndices} themeIndex={themeIndex} passThrough={false}>
+          {/* <Border margin={5} iter={3} blockHeight={60} pathIndices={smoothIndices} themeIndex={themeIndex} passThrough={false}>
             <TextTransition text="Justin&nbsp;Lee" themeIndex={themeIndex} duration={duration} />
-          </Border>  
+          </Border>   */}
         </div></div>
           <div ref={refs.contact} className={classesFor("contact")}>Contact</div>
           <div ref={refs.contact2} className={classesFor("contact2")}>2Contact</div>
-          <div ref={refs.p1} className={classesFor("p1")}>P1</div>
-          <div ref={refs.p2} className={classesFor("p2")}>P2</div>
-          <div ref={refs.p3} className={classesFor("p3")}>P3</div>
-          <div ref={refs.p4} className={classesFor("p4")}>P4</div>
+          <div onClick={proj1Click} ref={refs.proj1} className={classesFor("proj1")}>Symmetry Group Demo</div>
+          <div onClick={proj2Click} ref={refs.proj2} className={classesFor("proj2")}>Homology Calculator Demo</div>
+          <div onClick={proj3Click} ref={refs.proj3} className={classesFor("proj3")}>Project 3</div>
+          <div onClick={proj4Click} ref={refs.proj4} className={classesFor("proj4")}>Project 4</div>
         </div>
-    
+            <h2>
+          Layout Index: {currentLayoutIndex}
+          Step: {smoothIndices}
+        </h2>
+        {/* Name Section */}
+        
+      <ThemeSelector points={points} currentIndex={themeIndex} setIndex={setTarget} />
         </div>
+        
       </div>
 
   )

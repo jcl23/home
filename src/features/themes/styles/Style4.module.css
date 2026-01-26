@@ -1,23 +1,80 @@
 :root {
     --a4: #8d0000;
-    --b4: rgb(233, 233, 219);
+    --b4: rgb(231, 240, 238);
+    --m4: #ff0000;
+    --s4_button_bg: rgba(255, 0, 0, 0.611);
+    --s4_button_fg: rgb(0, 0, 0);
+    
+    /* background: var(--b4); */
+}
+
+@keyframes flicker {
+    0%, 4%, 7%, 12%, 21%, 23%, 41%, 53%,  57%, 100% { background: var(--s4_button_bg); }
+    5%, 6%, 12%, 20%, 24%, 40%, 55% { background-color: transparent; }
+}
+
+@keyframes flash1 {
+  3%, 5%, 27%, 28%, 29%, 31%, 32%, 33%, 36%, 38%, 54%, 60% { opacity: 0; }
+  4%, 30%, 37% { opacity: 1; }
+  55%, 59% { opacity: 0.8; }
+}
+@keyframes flash2 {
+  2%, 4%, 34%, 36%, 39%, 41%, 49%, 60% { opacity: 0; }
+  3%, 35%, 40%, 50%, 59% { opacity: 1; }
+}
+
+@keyframes flash3 {
+  47%, 48%, 49%, 50%, 51%, 53%, 54%, 55%, 56%, 57%, 71%, 72%, 74%, 75%, 82%, 83%, 84%, 85%, 86%, 87%, 88%, 89%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97% { opacity: 0; }
+  52%, 73%, 88%, 92% { opacity: 1; }
+}
+
+@keyframes flash4 {
+  3%, 5%, 29%, 30%, 32%, 33%, 58%, 60%, 85%, 87% { opacity: 0; }
+  4%, 31%, 59%, 86% { opacity: 1; }
+}
+
+@keyframes textglitch1 {
+
+}
+@keyframes wild {
+
+    /* // every 10% is a random reflection and 90% rotation and scale between 1 and 2. Generate for each line;;
+    the only catch it it should be fixed to 90% angles */
+    0%, 9.9% { transform: rotate(0deg) scale(1); }
+    10%, 19.9% { transform: rotate(90deg) scale(1.5); }
+    20%, 29.9% { transform: rotate(180deg) scale(1.2); }
+    30%, 39.9% { transform: rotate(270deg) scale(1.8); }
+    40%, 49.9% { transform: rotate(360deg) scale(1.1); }
+    50%, 59.9% { transform: rotate(450deg) scale(1.6); }
+    60%, 69.9% { transform: rotate(540deg) scale(1.3); }
+    70%, 79.9% { transform: rotate(630deg) scale(1.7); }
+    80%, 89.9% { transform: rotate(720deg) scale(1.4); }
+    90%, 99.9% { transform: rotate(810deg) scale(1.9); }
+    100% { transform: rotate(900deg) scale(1); }
 }
 .svg {
     display: none;
 }
+.container {
+    background: var(--b4);
+}
 .outer {
     background: var(--b4);
-    transition: background-color 0.4s;
 
 }
 .header {
     transition-duration: 1s;
 }
 .header > div {
-    transition-duration: 0.4s;
     margin: 10px;
     border-width: 0px;
     border-color: transparent;
+}
+
+.layoutBorder {
+
+    font-family: 'CommitMono';
+
 }
 
 
@@ -37,7 +94,109 @@
     color: var(--a4);
     position: relative;
     top: 0px;
+    height: 70px;
+    font-size: 20px;
+
+}
+
+.modal { 
+    background: repeating-linear-gradient(
+        135deg,
+        var(--m4),
+        var(--m4) 4px,
+        color-mix(in srgb, var(--m4) 80%, transparent) 4px,
+        color-mix(in srgb, var(--m4) 80%, transparent) 8px
+    )
 }
 .nameOuter {
     /* width: 0; */
+}
+
+.proj1, .proj2, .proj3, .proj4 {
+    align-content: center; 
+    text-wrap: break-word;
+    border-color: red;
+    border-style: solid;
+    border-width: 0px 0px 2px 2px;
+    border-radius: 0px 0px 0px 3px;
+    box-shadow: -1px 4px 1px 1px  rgba(176, 16, 16, 0.241);
+    animation: textglitch1 2s linear infinite!important;
+
+    corner-shape: bevel;
+}
+
+.proj1:hover, .proj2:hover, .proj3:hover,.proj4:hover {
+    /* background: var(--a4); */
+    color: rgb(255, 255, 255);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    /* animation plays once on hover and then stops until rehovered */
+    background-color: var(--s4_button_bg);
+    animation: flicker 0.5s linear 1;
+    transform: translateY(-2px);
+}
+
+.proj1::after {
+    content: '▖▀▝▙█▓▓█░▛▒▍▝▜▏▉▌▘▐▒█▃░▃▒▔▒▄▂▁█▊▘▎▆░▕▘▄▄▊░▝▙▍▗▔░▙▏▏▅░▙▇▏▃▋▀▐▇░▝░▕▉▋▋▞▞░▒▆▘▜█▎▗▘▛▐░▙▃▜▓█▚▃▏▌▐▏▂░▓▜▖▕▒▜▛░▓░▄▜▌▐▓▒▘▓▓▎▔▒█▅▃▝▘▕▙▉▚▜▐▍▄▘▝▒▌▒░▅▏▄▚▔▆▂▚▃▜▙▝▓█▀░▝▛▖█▚▃▀▜▐▞░▋▓▙▟▖▜▆▟▍▏▒▟▐▍▝▒▄▝▔▅░▔▛▊▀▊▋▖░▔▘▙▜▋▟▃▏';
+}
+
+.proj2::after {
+ content: '▍▝▏▍░▗░▟░▀▆▉░▓▎▕▌▓▝▓▎▎▅▓▃▝▓▁▐▖▓▀▒▇▅░▓▅▖▀▓▒▘▓▓▄▅▇▇▋▅▆▖█▔▔▍▛▜▏▆▒▔▎▍▘▖▒▒▄▄▒▃▗▂▖▟▁▋▆▛▗░▟▓▞▃▀▂▍▕▓▀▏▞▃▞▓▟▎▃▍▆▘░▝▖▟▉▓▐▛▌▞▆▀▓▞▎▃▘▁▜▚▀▞▆░▚▙▆░▋▖▘▖▅▚▓▍░▗▂▖▗▄▖▓░▟░▚▚▉▇▓▒▁▆░▌▜▗▆▊▕▓▖▒▁▕▃▉▅▖▉▍▌▔▚▝▙▂▍▎▘▁▓▓▚▏▋▍░▚▍▚▁▘▐'
+}
+
+.proj3::after {
+    content:'▏▜▟▟▗░▓▁▎▖░▒▝▓▒▓▅▏░▅▎▓▄▋▂▜▘▊▞▛▟█▐▛▋▔▔▖▉▚▌▅▓▍▐▏▉▗░▀▖▙▊▓▀▇▁▙▂░▕▓▁▖▒▒▟▅▒▜░▞▖▆▔▜▜▓█▇▓▐▐▚▅▚▒▚▒░▇▐▗▜░▜▓█▟▓▟▀░▀░▉▆▗▂▀░▝▙▏▙▟▟▓▒▆▄▓░▋▆▆▒▐▟▅▖▓▓▒▘░▞░▓▓▌▄▁▞▔▒░▓▚▓░▘▓▘▗▞▂▌█▓▜▎▐▉▏▅░▏▊▜░▁▄▜▝▜▁▓▎▚▜▅░░▝▀▅▄▏▍▎▇▗▖▕▓▅▍▗▂';
+}
+.proj4::after {
+    content: '▘░▕▏▎▒▉▓▏▎▒▆█▃▍░░▇▃▏▆▒▓▓▁▂▟▁▒▋▋▎▟▞░▓▝▂▇▟▓▂▍▍▍▂▙░▍▁▄▓▎▅▓▐▙▄▟▋▒▕▐▟▐▙▂▐▘▓▎▉▎░▀▘▃▚▝▄▎▖▉▙▎▝▚▞▕▞▒▆▆▝▊▁▟░▗█▒▟▀▖▍▅▗▐▉▃▓▓▌▊▅▆█▐▜░░░▍▄▍▌▖▐▙▉▎▓▗▅▐▕▙▖▁▚▆▉▜▐▓▂▇░▟▂▇▓▘▚▓░▝▓▒░▆▏▚░▞▛▒▁░░▓▏▓░▟▕░▉▔▋░▃▃▊▄▅▁▒█▒▝▏▁▁▌▘▍▌▋█';
+}
+.proj1::after, .proj2::after, .proj3::after, .proj4::after {
+    max-width: 20ch;
+    text-overflow: wrap;
+    overflow: wrap;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 20px;
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 0px;
+    left: 40px;
+    right: 0;
+    bottom: 30px;
+    z-index: 1;
+    transition-property: opacity;
+    opacity: 0;
+    background-color: rgb(255, 0, 0);
+    /* animation: flicker 0.5s linear 1, wild 0.5s linear 1; */
+
+}
+
+.proj1:hover::after, .proj2:hover::after, .proj3:hover::after, .proj4:hover::after {
+    /* opacity: 1; */
+    /* animation: flash1 1s linear 1, wild 2s linear infinite; */
+    transition: none;
+    transition-property: none!important;
+}
+
+.proj1:hover {
+    line-height: normal;
+}
+.proj1:hover::after {
+    animation: flash1 1s linear 1, wild 2s linear infinite;
+}
+
+.proj2:hover::after {
+    animation: flash2 1s linear 1, wild 2s linear infinite;
+}
+
+.proj3:hover::after {
+    animation: flash3 1s linear 1, wild 2s linear infinite;
+}
+
+.proj4:hover::after {
+    animation: flash4 1s linear 1, wild 2s linear infinite;
+}
+
+.contact2 {
+    height: 0;
 }
