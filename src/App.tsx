@@ -36,6 +36,7 @@ const App = function () {
   // const [duration, setDuration] = useState(TRANSITION_DURATION);
   const [debugStep, setDebugStep] = useState(0);
   const [[lastLayoutIndex, currentLayoutIndex], setLayoutIndices] = useState([start, start]);
+
   const setTarget = (index: number) => {
     setLayoutIndices((prev) => {
       if (prev[1] === index) return prev; // No change
@@ -43,7 +44,7 @@ const App = function () {
     });
   }
   const [modalOpen, setModalOpen] = useState(false);
-  const smoothIndices = usePathTransition(
+  const [smoothIndices, showImages] = usePathTransition(
     points,
     paths,
     lastLayoutIndex,
@@ -63,11 +64,12 @@ const App = function () {
   }
 
   const [selectedPassageIndex, setSelectedPassageIndex] = useState(-1);
-  const rulesFor = (className: string) => `${styles[themeIndex][className]} ${layouts[className + "_" + smoothIndices[1]]}`;
-  const classesFor = (className: string) => `
-  ${layouts[className + "_" + smoothIndices[1]]}
-  ${ambientStyle[className]}
-  ${styles[themeIndex][className]} 
+  // const rulesFor = (className: string) => `${styles[themeIndex][className] ?? ''} ${layouts[className + "_" + smoothIndices[1]] ?? ''}`;
+  const classesFor = (className: string, other?: string) => `
+  ${layouts[className + "_" + smoothIndices[1]] ?? ''}
+  ${ambientStyle[className] ?? ''}
+  ${styles[themeIndex][className] ?? ''}
+  ${other ? styles[themeIndex][other] : ''} 
   `;
 
   const animTimePerStep = Math.floor(TRANSITION_DURATION / numStepsInTransition);
@@ -87,6 +89,15 @@ const App = function () {
             <button onClick={(e) => { e.stopPropagation(); setSelectedPassageIndex(-1); }}>Close</button>
           </div>
         </div> */}
+        <div>
+          {Array(TOTAL_STATES).fill(0).map((_, idx) => (
+            <div key={idx} style={{display: 'inline-block', margin: '5px'}}>
+              <button onClick={() => setTarget(idx)}>
+                {`Go ${idx}`}
+              </button>
+            </div>
+          ))}
+        </div>
       <div ref={refs.outer}className={classesFor("outer")}     style={{transitionDuration: `${animTimePerStep}ms`}}>
         <div className={`${ambientStyle.header} ${style.header}`}>
           <div> <button className={`${ambientStyle.button} ${style.button}`}>
@@ -110,11 +121,23 @@ const App = function () {
             <TextTransition text="Justin&nbsp;Lee" themeIndex={themeIndex} duration={duration} />
           </Border>   */}
         </div></div>
-          <div ref={refs.contact} className={classesFor("contact")}>Contact</div>
+          <div ref={refs.contact} className={classesFor("contact")}>
+            <h2><a href="https://www.linkedin.com/in/justin-lee-2aa469212/">LinkedIn</a></h2>
+            <h2><a href="mailto:justin.lee91375@gmail.com">Email</a></h2>
+            <h2><a href="https://github.com/jcl23">GitHub</a></h2>
+          </div>
           <div ref={refs.contact2} className={classesFor("contact2")}>2Contact</div>
-          <div onClick={proj1Click} ref={refs.proj1} className={classesFor("proj1")}>Symmetry Group Demo</div>
-          <div onClick={proj2Click} ref={refs.proj2} className={classesFor("proj2")}>Homology Calculator Demo</div>
-          <div onClick={proj3Click} ref={refs.proj3} className={classesFor("proj3")}>Project 3</div>
+            <div onClick={proj1Click} ref={refs.proj1} className={classesFor("proj1")}>
+            <img src="src\assets\images\rotate_98.png"  className={classesFor("thumbnails", showImages ? "" : "hidden")} alt="Rotation Demo" />
+            Symmetry Group Demo
+            </div>
+          <div onClick={proj2Click} ref={refs.proj2} className={classesFor("proj2")}>
+            <img src="src\assets\images\homology_98.png"  className={classesFor("thumbnails")} alt="Rotation Demo" />
+            Homology Calculator Demo
+          </div>
+          <div onClick={proj3Click} ref={refs.proj3} className={classesFor("proj3")}>
+            Project 3
+          </div>
           <div onClick={proj4Click} ref={refs.proj4} className={classesFor("proj4")}>Project 4</div>
         </div>
             <h2>

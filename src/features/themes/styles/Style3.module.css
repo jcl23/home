@@ -5,16 +5,21 @@
 }
 
 .container {
-    background-color: rgb(200, 200, 200);
+    background-color: hsl(180deg 100% 25.1%);
+
 }
 
 .outer {
-    background:  rgb(222, 222, 222);
+    font-family: W95FA, sans-serif;
+    background:  hsl(0deg 0% 75.29%);
     animation: shaky 0.5s infinite;
     /* border: 1px solid red; */
     border-width: 1px 1px 1px 1px;
     border-style: solid;
     border-color: rgb(180, 180, 180);
+
+    transition-timing-function: steps(12);
+
 }
 
 .svg {
@@ -25,7 +30,6 @@
 .svg > polyline {
     fill: none;
     stroke-linecap: square;
-
 }
 
 .polyline2 {
@@ -48,16 +52,11 @@
 .polyline1 {
     /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
     /* stroke-dashoffset: calc(0px - var(--hilbert-gap) / 2); */
-
-    
-
 }
 
 
 .header {
-
 }
-
 
 .header > div {
 
@@ -69,18 +68,33 @@
 
 }
 
-.button{
+.button, .contact > h2 {
+    /* https://github.com/AlexBSoft/win95.css/blob/master/assets/win95.css */
       border-width: 2px;
       border-style: outset;
       font-family: "W95FA";
+      border-color: buttonface;
       border-right-color: #424242;
       border-bottom-color: #424242;
       background-color: silver;
       color: black;
       padding: 0 0 4px;
       border-radius: 1px;
+    transition-timing-function: steps(4);
   }
-  .button:hover {
+  .contact > h2 {
+      margin-top: 10px;
+      width: 100px;
+      height: 22px;
+    }
+    .contact a {
+        margin-top: -15px;
+      font-size: 16px;
+      color: black;
+      transform: translateY(-5px);
+    letter-spacing: 0.1em;
+  }
+  .button:hover, .contact > h2:hover {
       border: 2px inset #fff;
       background: silver;
       color: #424242;
@@ -113,7 +127,6 @@
     font-weight: bold;
     font-stretch: expanded;
     color: var(--r3_fg)
-
 }
 .nameOuter {
     /* width: 0; */
@@ -153,6 +166,17 @@
 .card_body {
     /* font-size: 18px; */
 }
+.contact {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.contact > h2 {
+    font-family: 'W95FA';
+    filter: blur(0.2px);
+    font-weight: normal;
+    font-size: 1.2em;
+}
 
 
 /* .card_header {
@@ -179,9 +203,21 @@
     align-content: center; 
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     text-wrap: break-word;
+    transition-timing-function: steps(4);
+    overflow: hidden;
+
 }
 
 [class^="_proj"]:hover {
     /* background: var(--a4); */
     filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.4));
+}
+
+.thumbnails {
+    image-rendering: pixelated;
+    max-width: 142px;
+}
+
+.hidden {
+    opacity: 0;
 }

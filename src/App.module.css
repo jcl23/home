@@ -24,9 +24,16 @@ html, body, #root {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     width: var(--CANV_WIDTH);
-    
+}
+
+.outer::after {
+    content: "outer"; position: absolute;
+    top: 0;
+    left: 0;
+    text-shadow: 2px 2px 4px black;
+    color: white;
+    clear: both;
 }
 
 .outer >  div {
@@ -38,6 +45,7 @@ html, body, #root {
     transition-property: all;
     /* border: 1px solid red; */
 }
+
 
 .layoutBorder {
     max-width: 720px;
@@ -85,6 +93,7 @@ html, body, #root {
 
 .container {
     height: 100%;
+
 }
 /* ========== COMMENTED/UNUSED STYLES ========== */
 
@@ -223,4 +232,10 @@ html, body, #root {
 .container {
     margin: 0 auto;   
     height: 100%;
+}
+
+.thumbnails {
+    transition-property: all;
+    transition-duration: var(--WIPE_TIME);
+    transition-timing-function: ease-in-out;
 }

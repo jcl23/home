@@ -200,3 +200,11 @@
 .contact2 {
     height: 0;
 }
+
+.thumbnails {
+    width: 0px;
+    opacity: 0;
+}
+.hidden {
+    opacity: 0;
+}
